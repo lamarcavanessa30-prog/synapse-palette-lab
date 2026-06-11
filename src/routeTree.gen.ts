@@ -9,61 +9,153 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppProfiloRouteImport } from './routes/_app.profilo'
+import { Route as AppMappaRouteImport } from './routes/_app.mappa'
+import { Route as AppDiarioRouteImport } from './routes/_app.diario'
+import { Route as AppChatRouteImport } from './routes/_app.chat'
 
-const IndexRoute = IndexRouteImport.update({
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfiloRoute = AppProfiloRouteImport.update({
+  id: '/profilo',
+  path: '/profilo',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMappaRoute = AppMappaRouteImport.update({
+  id: '/mappa',
+  path: '/mappa',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDiarioRoute = AppDiarioRouteImport.update({
+  id: '/diario',
+  path: '/diario',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AppIndexRoute
+  '/chat': typeof AppChatRoute
+  '/diario': typeof AppDiarioRoute
+  '/mappa': typeof AppMappaRoute
+  '/profilo': typeof AppProfiloRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/chat': typeof AppChatRoute
+  '/diario': typeof AppDiarioRoute
+  '/mappa': typeof AppMappaRoute
+  '/profilo': typeof AppProfiloRoute
+  '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/chat': typeof AppChatRoute
+  '/_app/diario': typeof AppDiarioRoute
+  '/_app/mappa': typeof AppMappaRoute
+  '/_app/profilo': typeof AppProfiloRoute
+  '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/chat' | '/diario' | '/mappa' | '/profilo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/chat' | '/diario' | '/mappa' | '/profilo' | '/'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/_app/chat'
+    | '/_app/diario'
+    | '/_app/mappa'
+    | '/_app/profilo'
+    | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profilo': {
+      id: '/_app/profilo'
+      path: '/profilo'
+      fullPath: '/profilo'
+      preLoaderRoute: typeof AppProfiloRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/mappa': {
+      id: '/_app/mappa'
+      path: '/mappa'
+      fullPath: '/mappa'
+      preLoaderRoute: typeof AppMappaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/diario': {
+      id: '/_app/diario'
+      path: '/diario'
+      fullPath: '/diario'
+      preLoaderRoute: typeof AppDiarioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/chat': {
+      id: '/_app/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AppChatRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppChatRoute: typeof AppChatRoute
+  AppDiarioRoute: typeof AppDiarioRoute
+  AppMappaRoute: typeof AppMappaRoute
+  AppProfiloRoute: typeof AppProfiloRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppChatRoute: AppChatRoute,
+  AppDiarioRoute: AppDiarioRoute,
+  AppMappaRoute: AppMappaRoute,
+  AppProfiloRoute: AppProfiloRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
