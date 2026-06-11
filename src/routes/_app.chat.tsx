@@ -9,9 +9,9 @@ export const Route = createFileRoute("/_app/chat")({
 type Msg = { id: number; from: "me" | "ai"; text: string; refs?: string[] };
 
 const initial: Msg[] = [
-  { id: 1, from: "ai", text: "Bentornata, Elena. La tua ultima riflessione parlava di lentezza come forma di attenzione. Vuoi riprenderla, o iniziare da un pensiero nuovo?" },
-  { id: 2, from: "me", text: "Riprendiamola. Mi accorgo che la fretta mi fa perdere le sfumature." },
-  { id: 3, from: "ai", text: "C'è un filo, nei tuoi appunti di aprile, che collega questo a un'idea di Calvino sulla leggerezza. Vuoi che ti mostri la connessione?", refs: ["Letture lente", "Aprile · 14"] },
+  { id: 1, from: "ai", text: "Ehi, bentornata. L'ultima volta mi stavi raccontando di quella sensazione di lentezza che ti faceva bene. Vuoi riprendere da lì, o c'è altro che ti gira in testa oggi?" },
+  { id: 2, from: "me", text: "Riprendiamola. Mi accorgo che quando vado di fretta perdo i dettagli — e poi mi manca qualcosa." },
+  { id: 3, from: "ai", text: "Eh, ti capisco. Mi sono ricordata una cosa che avevi scritto ad aprile, su Calvino e la leggerezza — credo si parlino tra loro. Te la mostro?", refs: ["Letture lente", "Aprile · 14"] },
 ];
 
 function ChatPage() {
@@ -23,7 +23,7 @@ function ChatPage() {
     setMessages((m) => [...m, { id: Date.now(), from: "me", text: input }]);
     setInput("");
     setTimeout(() => {
-      setMessages((m) => [...m, { id: Date.now() + 1, from: "ai", text: "Lascio sedimentare questa idea con te. Cosa cambierebbe, se invece di trattenerla la lasciassi crescere?" }]);
+      setMessages((m) => [...m, { id: Date.now() + 1, from: "ai", text: "Mm, resto un attimo qui con te su questa cosa. Posso chiederti — cosa cambierebbe, se invece di trattenerla la lasciassi semplicemente stare?" }]);
     }, 800);
   };
 
@@ -86,7 +86,7 @@ function ChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
             rows={1}
-            placeholder="Scrivi al tuo sé pensante…"
+            placeholder="Dimmi pure…"
             className="flex-1 resize-none bg-transparent outline-none py-2.5 px-2 leading-relaxed max-h-40"
           />
           <button onClick={send} className="size-10 grid place-items-center rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition shadow-soft">
@@ -94,7 +94,7 @@ function ChatPage() {
           </button>
         </div>
         <div className="max-w-3xl mx-auto mt-3 text-[11px] text-muted-foreground text-center">
-          Synapse risponde con calma. Premi Invio per inviare, Shift+Invio per andare a capo.
+          Nessuna fretta. Scrivi come parleresti.
         </div>
       </div>
     </div>

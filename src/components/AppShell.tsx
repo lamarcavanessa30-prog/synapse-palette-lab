@@ -25,7 +25,7 @@ export function AppShell() {
           </div>
           <div>
             <div className="font-display text-xl leading-none">Synapse</div>
-            <div className="text-[11px] tracking-wide uppercase text-muted-foreground mt-1">biblioteca della mente</div>
+            <div className="text-[11px] tracking-wide uppercase text-muted-foreground mt-1">le connessioni della tua storia</div>
           </div>
         </div>
 
