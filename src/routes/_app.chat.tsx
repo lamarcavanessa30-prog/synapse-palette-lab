@@ -86,7 +86,7 @@ function ChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
             rows={1}
-            placeholder="Scrivi al tuo sé pensante…"
+            placeholder="Dimmi pure…"
             className="flex-1 resize-none bg-transparent outline-none py-2.5 px-2 leading-relaxed max-h-40"
           />
           <button onClick={send} className="size-10 grid place-items-center rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition shadow-soft">
@@ -94,7 +94,7 @@ function ChatPage() {
           </button>
         </div>
         <div className="max-w-3xl mx-auto mt-3 text-[11px] text-muted-foreground text-center">
-          Synapse risponde con calma. Premi Invio per inviare, Shift+Invio per andare a capo.
+          Nessuna fretta. Scrivi come parleresti.
         </div>
       </div>
     </div>
