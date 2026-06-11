@@ -23,7 +23,7 @@ function ChatPage() {
     setMessages((m) => [...m, { id: Date.now(), from: "me", text: input }]);
     setInput("");
     setTimeout(() => {
-      setMessages((m) => [...m, { id: Date.now() + 1, from: "ai", text: "Lascio sedimentare questa idea con te. Cosa cambierebbe, se invece di trattenerla la lasciassi crescere?" }]);
+      setMessages((m) => [...m, { id: Date.now() + 1, from: "ai", text: "Mm, resto un attimo qui con te su questa cosa. Posso chiederti — cosa cambierebbe, se invece di trattenerla la lasciassi semplicemente stare?" }]);
     }, 800);
   };
 
