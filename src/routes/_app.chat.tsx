@@ -9,9 +9,9 @@ export const Route = createFileRoute("/_app/chat")({
 type Msg = { id: number; from: "me" | "ai"; text: string; refs?: string[] };
 
 const initial: Msg[] = [
-  { id: 1, from: "ai", text: "Bentornata, Elena. La tua ultima riflessione parlava di lentezza come forma di attenzione. Vuoi riprenderla, o iniziare da un pensiero nuovo?" },
-  { id: 2, from: "me", text: "Riprendiamola. Mi accorgo che la fretta mi fa perdere le sfumature." },
-  { id: 3, from: "ai", text: "C'è un filo, nei tuoi appunti di aprile, che collega questo a un'idea di Calvino sulla leggerezza. Vuoi che ti mostri la connessione?", refs: ["Letture lente", "Aprile · 14"] },
+  { id: 1, from: "ai", text: "Ehi, bentornata. L'ultima volta mi stavi raccontando di quella sensazione di lentezza che ti faceva bene. Vuoi riprendere da lì, o c'è altro che ti gira in testa oggi?" },
+  { id: 2, from: "me", text: "Riprendiamola. Mi accorgo che quando vado di fretta perdo i dettagli — e poi mi manca qualcosa." },
+  { id: 3, from: "ai", text: "Eh, ti capisco. Mi sono ricordata una cosa che avevi scritto ad aprile, su Calvino e la leggerezza — credo si parlino tra loro. Te la mostro?", refs: ["Letture lente", "Aprile · 14"] },
 ];
 
 function ChatPage() {
