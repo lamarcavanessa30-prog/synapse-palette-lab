@@ -118,7 +118,7 @@ export function AppShell() {
               <div className="text-xs text-muted-foreground">Salvato in <span className="text-foreground">Diario · oggi</span></div>
               <div className="flex gap-2">
                 <button onClick={() => setOpen(false)} className="px-4 py-2 rounded-lg text-sm hover:bg-muted">Annulla</button>
-                <button onClick={() => { setThought(""); setOpen(false); }} className="px-5 py-2 rounded-lg text-sm bg-primary text-primary-foreground shadow-soft hover:opacity-90">Coltiva</button>
+                <button onClick={() => { setThought(""); setOpen(false); }} className="px-5 py-2 rounded-lg text-sm bg-primary text-primary-foreground shadow-soft hover:opacity-90">Conserva</button>
               </div>
             </div>
           </div>
