@@ -108,7 +108,7 @@ function MapPage() {
 
         {/* Legend */}
         <div className="absolute bottom-24 md:bottom-8 left-8 glass rounded-2xl p-4 shadow-soft text-xs space-y-2">
-          <div className="uppercase tracking-widest text-[10px] text-muted-foreground mb-2">Costellazioni</div>
+          <div className="uppercase tracking-widest text-[10px] text-muted-foreground mb-2">Temi attivi</div>
           {[
             { c: "var(--sage-deep)", l: "Architettura interiore", n: 24 },
             { c: "var(--dust)", l: "Rituali quotidiani", n: 11 },
