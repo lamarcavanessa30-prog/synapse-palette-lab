@@ -91,7 +91,7 @@ function HomePage() {
           ))}
         </div>
         <p className="text-xs text-muted-foreground mt-4 italic max-w-xl">
-          Non sono risposte. Sono domande che stiamo coltivando insieme, con il tempo che serve.
+          Non sono risposte. Sono domande che stiamo esplorando insieme, con il tempo che serve.
         </p>
       </section>
 
