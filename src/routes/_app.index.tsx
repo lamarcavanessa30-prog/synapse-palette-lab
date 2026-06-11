@@ -132,17 +132,17 @@ function HomePage() {
         </section>
 
         <section className="md:col-span-2">
-          <h2 className="font-display text-2xl mb-4">Costellazioni</h2>
+          <h2 className="font-display text-2xl mb-4">Temi attivi</h2>
           <div className="space-y-3">
-            {constellations.map((c) => (
+            {activeThemes.map((c) => (
               <div key={c.name} className="rounded-2xl p-5 bg-card border border-border/60 shadow-soft">
                 <div className={`size-10 rounded-xl bg-gradient-to-br ${c.hue} mb-3 shadow-soft`} />
                 <div className="font-medium">{c.name}</div>
-                <div className="text-xs text-muted-foreground mt-1">{c.count} nodi connessi</div>
+                <div className="text-xs text-muted-foreground mt-1">{c.count} connessioni trovate</div>
               </div>
             ))}
             <div className="rounded-2xl p-5 border border-dashed border-border bg-transparent text-sm text-muted-foreground flex items-center gap-2">
-              <Sparkles className="size-4" /> Lascia che una nuova costellazione si formi.
+              <Sparkles className="size-4" /> Nuovi temi emergono con il tempo.
             </div>
           </div>
         </section>
