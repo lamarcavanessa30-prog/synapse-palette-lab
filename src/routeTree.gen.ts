@@ -13,6 +13,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppProfiloRouteImport } from './routes/_app.profilo'
 import { Route as AppMappaRouteImport } from './routes/_app.mappa'
+import { Route as AppInsightRouteImport } from './routes/_app.insight'
 import { Route as AppDiarioRouteImport } from './routes/_app.diario'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
 
@@ -35,6 +36,11 @@ const AppMappaRoute = AppMappaRouteImport.update({
   path: '/mappa',
   getParentRoute: () => AppRoute,
 } as any)
+const AppInsightRoute = AppInsightRouteImport.update({
+  id: '/insight',
+  path: '/insight',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDiarioRoute = AppDiarioRouteImport.update({
   id: '/diario',
   path: '/diario',
@@ -50,12 +56,14 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/chat': typeof AppChatRoute
   '/diario': typeof AppDiarioRoute
+  '/insight': typeof AppInsightRoute
   '/mappa': typeof AppMappaRoute
   '/profilo': typeof AppProfiloRoute
 }
 export interface FileRoutesByTo {
   '/chat': typeof AppChatRoute
   '/diario': typeof AppDiarioRoute
+  '/insight': typeof AppInsightRoute
   '/mappa': typeof AppMappaRoute
   '/profilo': typeof AppProfiloRoute
   '/': typeof AppIndexRoute
@@ -65,20 +73,22 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_app/chat': typeof AppChatRoute
   '/_app/diario': typeof AppDiarioRoute
+  '/_app/insight': typeof AppInsightRoute
   '/_app/mappa': typeof AppMappaRoute
   '/_app/profilo': typeof AppProfiloRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/diario' | '/mappa' | '/profilo'
+  fullPaths: '/' | '/chat' | '/diario' | '/insight' | '/mappa' | '/profilo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/chat' | '/diario' | '/mappa' | '/profilo' | '/'
+  to: '/chat' | '/diario' | '/insight' | '/mappa' | '/profilo' | '/'
   id:
     | '__root__'
     | '/_app'
     | '/_app/chat'
     | '/_app/diario'
+    | '/_app/insight'
     | '/_app/mappa'
     | '/_app/profilo'
     | '/_app/'
@@ -118,6 +128,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMappaRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/insight': {
+      id: '/_app/insight'
+      path: '/insight'
+      fullPath: '/insight'
+      preLoaderRoute: typeof AppInsightRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/diario': {
       id: '/_app/diario'
       path: '/diario'
@@ -138,6 +155,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppChatRoute: typeof AppChatRoute
   AppDiarioRoute: typeof AppDiarioRoute
+  AppInsightRoute: typeof AppInsightRoute
   AppMappaRoute: typeof AppMappaRoute
   AppProfiloRoute: typeof AppProfiloRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -146,6 +164,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppChatRoute: AppChatRoute,
   AppDiarioRoute: AppDiarioRoute,
+  AppInsightRoute: AppInsightRoute,
   AppMappaRoute: AppMappaRoute,
   AppProfiloRoute: AppProfiloRoute,
   AppIndexRoute: AppIndexRoute,
