@@ -14,6 +14,7 @@ import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AppProfiloRouteImport } from './routes/_app.profilo'
 import { Route as AppMappaRouteImport } from './routes/_app.mappa'
 import { Route as AppInsightRouteImport } from './routes/_app.insight'
+import { Route as AppFrameworkRouteImport } from './routes/_app.framework'
 import { Route as AppDiarioRouteImport } from './routes/_app.diario'
 import { Route as AppChatRouteImport } from './routes/_app.chat'
 
@@ -41,6 +42,11 @@ const AppInsightRoute = AppInsightRouteImport.update({
   path: '/insight',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFrameworkRoute = AppFrameworkRouteImport.update({
+  id: '/framework',
+  path: '/framework',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDiarioRoute = AppDiarioRouteImport.update({
   id: '/diario',
   path: '/diario',
@@ -56,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/chat': typeof AppChatRoute
   '/diario': typeof AppDiarioRoute
+  '/framework': typeof AppFrameworkRoute
   '/insight': typeof AppInsightRoute
   '/mappa': typeof AppMappaRoute
   '/profilo': typeof AppProfiloRoute
@@ -63,6 +70,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/chat': typeof AppChatRoute
   '/diario': typeof AppDiarioRoute
+  '/framework': typeof AppFrameworkRoute
   '/insight': typeof AppInsightRoute
   '/mappa': typeof AppMappaRoute
   '/profilo': typeof AppProfiloRoute
@@ -73,6 +81,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_app/chat': typeof AppChatRoute
   '/_app/diario': typeof AppDiarioRoute
+  '/_app/framework': typeof AppFrameworkRoute
   '/_app/insight': typeof AppInsightRoute
   '/_app/mappa': typeof AppMappaRoute
   '/_app/profilo': typeof AppProfiloRoute
@@ -80,14 +89,29 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chat' | '/diario' | '/insight' | '/mappa' | '/profilo'
+  fullPaths:
+    | '/'
+    | '/chat'
+    | '/diario'
+    | '/framework'
+    | '/insight'
+    | '/mappa'
+    | '/profilo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/chat' | '/diario' | '/insight' | '/mappa' | '/profilo' | '/'
+  to:
+    | '/chat'
+    | '/diario'
+    | '/framework'
+    | '/insight'
+    | '/mappa'
+    | '/profilo'
+    | '/'
   id:
     | '__root__'
     | '/_app'
     | '/_app/chat'
     | '/_app/diario'
+    | '/_app/framework'
     | '/_app/insight'
     | '/_app/mappa'
     | '/_app/profilo'
@@ -135,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppInsightRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/framework': {
+      id: '/_app/framework'
+      path: '/framework'
+      fullPath: '/framework'
+      preLoaderRoute: typeof AppFrameworkRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/diario': {
       id: '/_app/diario'
       path: '/diario'
@@ -155,6 +186,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppChatRoute: typeof AppChatRoute
   AppDiarioRoute: typeof AppDiarioRoute
+  AppFrameworkRoute: typeof AppFrameworkRoute
   AppInsightRoute: typeof AppInsightRoute
   AppMappaRoute: typeof AppMappaRoute
   AppProfiloRoute: typeof AppProfiloRoute
@@ -164,6 +196,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppChatRoute: AppChatRoute,
   AppDiarioRoute: AppDiarioRoute,
+  AppFrameworkRoute: AppFrameworkRoute,
   AppInsightRoute: AppInsightRoute,
   AppMappaRoute: AppMappaRoute,
   AppProfiloRoute: AppProfiloRoute,
