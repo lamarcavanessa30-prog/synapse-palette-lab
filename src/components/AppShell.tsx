@@ -1,5 +1,5 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Home, MessageCircle, Network, BookOpen, User, Plus, Sparkles, Search } from "lucide-react";
+import { Home, MessageCircle, Network, BookOpen, User, Plus, Sparkles, Search, LineChart } from "lucide-react";
 import { useState } from "react";
 
 const nav = [
@@ -7,6 +7,7 @@ const nav = [
   { to: "/chat", label: "Chat", icon: MessageCircle },
   { to: "/mappa", label: "Mappa", icon: Network },
   { to: "/diario", label: "Diario", icon: BookOpen },
+  { to: "/insight", label: "Insight", icon: LineChart },
   { to: "/profilo", label: "Profilo", icon: User },
 ] as const;
 
