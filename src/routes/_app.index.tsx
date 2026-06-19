@@ -17,10 +17,15 @@ const activeThemes = [
   { name: "Rituali quotidiani", count: 11, hue: "from-anthracite to-sage-deep" },
 ];
 
-const openQuestions = [
-  { theme: "Solitudine", text: "Come cambia il tuo umore quando ti senti sola.", status: "in esplorazione" },
-  { theme: "Confini", text: "Cosa rende sostenibili i tuoi confini con gli altri.", status: "ipotesi aperta" },
-  { theme: "Energia", text: "Cosa ti aiuta davvero a recuperare energia, oltre il riposo.", status: "domanda viva" },
+const livingQuestion = {
+  text: "Cosa ti restituisce energia quando il riposo non basta?",
+  context: "Questa domanda emerge dai temi più ricorrenti delle ultime settimane.",
+};
+
+const pastQuestions = [
+  { theme: "Solitudine", text: "Come cambia il tuo umore quando ti senti sola.", status: "esplorata la scorsa settimana" },
+  { theme: "Confini", text: "Cosa rende sostenibili i tuoi confini con gli altri.", status: "tornata due volte" },
+  { theme: "Silenzi", text: "Perché alcuni silenzi pesano più di altri.", status: "emersa a maggio" },
 ];
 
 function HomePage() {
