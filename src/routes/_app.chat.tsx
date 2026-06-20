@@ -18,6 +18,7 @@ type Depth = {
   description: string;
   guide: string;
   reply: string;
+  refs?: string[];
   advanced?: boolean;
   warning?: string;
 };
