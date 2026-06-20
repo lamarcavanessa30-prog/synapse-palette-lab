@@ -740,6 +740,37 @@ function PersonalReport() {
 }
 
 // ——— PROFESSIONAL REPORT ———
+const proSources = [
+  {
+    name: "Conversazioni con Synapse",
+    weight: 42,
+    count: "118 scambi nel periodo",
+    desc: "Dialoghi testuali a tema libero, prevalentemente serali. Forniscono il materiale narrativo più ampio.",
+    quote: "«Mi accorgo che mi giudico prima ancora di provare a fare la cosa.»",
+  },
+  {
+    name: "Diario personale",
+    weight: 28,
+    count: "34 voci",
+    desc: "Annotazioni brevi, scritte in autonomia, spesso al mattino. Materiale meno strutturato ma più immediato.",
+    quote: "«Oggi ho dormito meglio. Forse contava davvero spegnere prima.»",
+  },
+  {
+    name: "Domande e questionari riflessivi",
+    weight: 18,
+    count: "9 questionari completati",
+    desc: "Risposte a domande aperte proposte dall'app. Utili per osservare costanti tra periodi diversi.",
+    quote: "«Quando dico di sì controvoglia, mi sento più stanca il giorno dopo.»",
+  },
+  {
+    name: "Comportamenti e tracce d'uso",
+    weight: 12,
+    count: "interazioni e ritmi d'uso",
+    desc: "Frequenza, orari e durata delle sessioni. Considerati solo come contesto, non come indicatori clinici.",
+    quote: null,
+  },
+];
+
 const proThemes = [
   { name: "Regolazione emotiva", freq: "Alta", trend: "In crescita", evidence: "24 elementi osservati", note: "Le riflessioni mostrano una crescente capacità di riconoscere e nominare gli stati emotivi prima dell'azione." },
   { name: "Gestione dei confini personali", freq: "Alta", trend: "Stabile", evidence: "19 elementi osservati", note: "Sembra emergere una maggiore attenzione alla distinzione tra richieste esterne e priorità personali, soprattutto in ambito lavorativo." },
@@ -827,13 +858,43 @@ function ProfessionalReport() {
       </header>
 
       <div className="px-6 md:px-12 py-10 md:py-12 space-y-12">
-        <ProSection title="Sintesi generale" index="01">
+        <ProSection title="Fonti del materiale considerato" index="01">
+          <p className="mb-5">
+            Le osservazioni di questo report derivano esclusivamente dal materiale prodotto in autonomia dalla persona, raccolto in quattro flussi distinti. Le percentuali indicano il peso relativo di ciascuna fonte all'interno della sintesi, non un giudizio sulla loro qualità. Nessun dato esterno, clinico o sanitario è stato utilizzato.
+          </p>
+          <div className="space-y-3">
+            {proSources.map((s) => (
+              <div key={s.name} className="rounded-2xl border border-border/60 bg-card p-5">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <div className="font-medium text-foreground">{s.name}</div>
+                  <div className="text-xs text-muted-foreground">{s.count}</div>
+                </div>
+                <div className="mt-3 flex items-center gap-3">
+                  <div className="h-1.5 flex-1 rounded-full bg-secondary overflow-hidden">
+                    <div className="h-full bg-primary/70 rounded-full" style={{ width: `${s.weight}%` }} />
+                  </div>
+                  <div className="text-xs tabular-nums text-muted-foreground w-10 text-right">{s.weight}%</div>
+                </div>
+                <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{s.desc}</p>
+                {s.quote && (
+                  <p className="mt-3 text-sm italic text-foreground/70 border-l-2 border-border/60 pl-3">{s.quote}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 text-xs text-muted-foreground leading-relaxed">
+            Le citazioni riportate sono estratti testuali scelti come esempio rappresentativo della fonte, non come prova clinica. Possono essere escluse dall'analisi su richiesta della persona.
+          </p>
+        </ProSection>
+
+
+        <ProSection title="Sintesi generale" index="02">
           <p>
             Nel periodo osservato emergono con maggiore frequenza temi legati alla regolazione emotiva, alla gestione dei confini personali e alla relazione tra energia percepita e carico mentale. Le osservazioni suggeriscono un progressivo spostamento da un registro valutativo a uno più descrittivo nell'auto-narrazione. Sembra emergere una maggiore continuità nelle pratiche di auto-cura, accompagnata da episodi ricorrenti di auto-critica anticipatoria nelle fasi ad alta densità cognitiva. Le risorse più stabilmente nominate restano la capacità riflessiva, la curiosità e la disponibilità al confronto relazionale.
           </p>
         </ProSection>
 
-        <ProSection title="Temi principali" index="02">
+        <ProSection title="Temi principali" index="03">
           <div className="space-y-4">
             {proThemes.map((t) => (
               <div key={t.name} className="rounded-2xl border border-border/60 bg-card p-5">
@@ -851,7 +912,7 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Pattern ricorrenti" index="03">
+        <ProSection title="Pattern ricorrenti" index="04">
           <div className="grid md:grid-cols-2 gap-3">
             {proPatterns.map((p) => (
               <div key={p.name} className="rounded-xl border border-border/60 bg-muted/30 p-4">
@@ -866,7 +927,7 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Risorse e fattori protettivi" index="04">
+        <ProSection title="Risorse e fattori protettivi" index="05">
           <div className="grid md:grid-cols-2 gap-3">
             {proResources.map((r) => (
               <div key={r.name} className="rounded-xl border border-primary/20 bg-primary/5 p-4">
@@ -880,7 +941,7 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Trigger e contesti associati" index="05">
+        <ProSection title="Trigger e contesti associati" index="06">
           <p className="text-sm text-muted-foreground mb-3">Elementi presentati come ipotesi osservative, non come fattori causali.</p>
           <ul className="space-y-2">
             {proTriggers.map((t) => (
@@ -889,7 +950,7 @@ function ProfessionalReport() {
           </ul>
         </ProSection>
 
-        <ProSection title="Strategie di coping osservate" index="06">
+        <ProSection title="Strategie di coping osservate" index="07">
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-2">Apparentemente utili</div>
@@ -910,7 +971,7 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Framework clinici utilizzati" index="07">
+        <ProSection title="Framework clinici utilizzati" index="08">
           <p className="text-sm text-muted-foreground mb-4">I framework sono utilizzati come lenti interpretative del materiale raccolto, non come classificazioni della persona.</p>
           <div className="space-y-3">
             {proFrameworks.map((f) => (
@@ -933,7 +994,7 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Evoluzione nel tempo" index="08">
+        <ProSection title="Evoluzione nel tempo" index="09">
           <ol className="space-y-4">
             {proTimeline.map((p) => (
               <li key={p.label} className="border-l-2 border-primary/40 pl-4">
@@ -944,7 +1005,7 @@ function ProfessionalReport() {
           </ol>
         </ProSection>
 
-        <ProSection title="Domande vive" index="09">
+        <ProSection title="Domande vive" index="10">
           <ul className="space-y-3">
             {proLiveQuestions.map((q) => (
               <li key={q} className="rounded-xl border border-border/60 bg-secondary/30 p-4 text-foreground/85">{q}</li>
@@ -952,7 +1013,7 @@ function ProfessionalReport() {
           </ul>
         </ProSection>
 
-        <ProSection title="Citazioni rappresentative" index="10">
+        <ProSection title="Citazioni rappresentative" index="11">
           <p className="text-sm text-muted-foreground mb-3">Estratti brevi e anonimizzati, utili a restituire il tono emotivo del materiale.</p>
           <div className="space-y-2">
             {proQuotes.map((q) => (
