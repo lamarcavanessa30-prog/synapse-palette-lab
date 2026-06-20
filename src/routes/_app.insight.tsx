@@ -858,6 +858,36 @@ function ProfessionalReport() {
       </header>
 
       <div className="px-6 md:px-12 py-10 md:py-12 space-y-12">
+        <ProSection title="Fonti del materiale considerato" index="01">
+          <p className="mb-5">
+            Le osservazioni di questo report derivano esclusivamente dal materiale prodotto in autonomia dalla persona, raccolto in quattro flussi distinti. Le percentuali indicano il peso relativo di ciascuna fonte all'interno della sintesi, non un giudizio sulla loro qualità. Nessun dato esterno, clinico o sanitario è stato utilizzato.
+          </p>
+          <div className="space-y-3">
+            {proSources.map((s) => (
+              <div key={s.name} className="rounded-2xl border border-border/60 bg-card p-5">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <div className="font-medium text-foreground">{s.name}</div>
+                  <div className="text-xs text-muted-foreground">{s.count}</div>
+                </div>
+                <div className="mt-3 flex items-center gap-3">
+                  <div className="h-1.5 flex-1 rounded-full bg-secondary overflow-hidden">
+                    <div className="h-full bg-primary/70 rounded-full" style={{ width: `${s.weight}%` }} />
+                  </div>
+                  <div className="text-xs tabular-nums text-muted-foreground w-10 text-right">{s.weight}%</div>
+                </div>
+                <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{s.desc}</p>
+                {s.quote && (
+                  <p className="mt-3 text-sm italic text-foreground/70 border-l-2 border-border/60 pl-3">{s.quote}</p>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 text-xs text-muted-foreground leading-relaxed">
+            Le citazioni riportate sono estratti testuali scelti come esempio rappresentativo della fonte, non come prova clinica. Possono essere escluse dall'analisi su richiesta della persona.
+          </p>
+        </ProSection>
+
+
         <ProSection title="Sintesi generale" index="02">
           <p>
             Nel periodo osservato emergono con maggiore frequenza temi legati alla regolazione emotiva, alla gestione dei confini personali e alla relazione tra energia percepita e carico mentale. Le osservazioni suggeriscono un progressivo spostamento da un registro valutativo a uno più descrittivo nell'auto-narrazione. Sembra emergere una maggiore continuità nelle pratiche di auto-cura, accompagnata da episodi ricorrenti di auto-critica anticipatoria nelle fasi ad alta densità cognitiva. Le risorse più stabilmente nominate restano la capacità riflessiva, la curiosità e la disponibilità al confronto relazionale.
