@@ -740,6 +740,37 @@ function PersonalReport() {
 }
 
 // ——— PROFESSIONAL REPORT ———
+const proSources = [
+  {
+    name: "Conversazioni con Synapse",
+    weight: 42,
+    count: "118 scambi nel periodo",
+    desc: "Dialoghi testuali a tema libero, prevalentemente serali. Forniscono il materiale narrativo più ampio.",
+    quote: "«Mi accorgo che mi giudico prima ancora di provare a fare la cosa.»",
+  },
+  {
+    name: "Diario personale",
+    weight: 28,
+    count: "34 voci",
+    desc: "Annotazioni brevi, scritte in autonomia, spesso al mattino. Materiale meno strutturato ma più immediato.",
+    quote: "«Oggi ho dormito meglio. Forse contava davvero spegnere prima.»",
+  },
+  {
+    name: "Domande e questionari riflessivi",
+    weight: 18,
+    count: "9 questionari completati",
+    desc: "Risposte a domande aperte proposte dall'app. Utili per osservare costanti tra periodi diversi.",
+    quote: "«Quando dico di sì controvoglia, mi sento più stanca il giorno dopo.»",
+  },
+  {
+    name: "Comportamenti e tracce d'uso",
+    weight: 12,
+    count: "interazioni e ritmi d'uso",
+    desc: "Frequenza, orari e durata delle sessioni. Considerati solo come contesto, non come indicatori clinici.",
+    quote: null,
+  },
+];
+
 const proThemes = [
   { name: "Regolazione emotiva", freq: "Alta", trend: "In crescita", evidence: "24 elementi osservati", note: "Le riflessioni mostrano una crescente capacità di riconoscere e nominare gli stati emotivi prima dell'azione." },
   { name: "Gestione dei confini personali", freq: "Alta", trend: "Stabile", evidence: "19 elementi osservati", note: "Sembra emergere una maggiore attenzione alla distinzione tra richieste esterne e priorità personali, soprattutto in ambito lavorativo." },
