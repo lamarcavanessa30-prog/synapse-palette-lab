@@ -102,6 +102,10 @@ function ChatPage() {
     { id: 3, from: "ai", text: "Eh, ti capisco. Mi sono ricordata una cosa che avevi scritto ad aprile, su Calvino e la leggerezza — credo si parlino tra loro. Te la mostro?", refs: ["Letture lente", "Aprile · 14"], level: "riflessione" },
   ]);
   const [input, setInput] = useState("");
+  const [suggestion, setSuggestion] = useState<ReturnType<typeof suggestPracticeForText>>(null);
+  const [userMsgCount, setUserMsgCount] = useState(0);
+  const [lastSuggestionAt, setLastSuggestionAt] = useState(-99);
+  const [dismissed, setDismissed] = useState<string[]>([]);
 
   // Restore depth from localStorage
   useEffect(() => {
