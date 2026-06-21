@@ -457,15 +457,96 @@ function PracticeReader({
   );
 }
 
-// Exported helper to be reused by chat suggestions
-export function suggestPracticeForText(text: string): Practice | null {
-  const t = text.toLowerCase();
-  let best: { p: Practice; score: number } | null = null;
-  for (const p of PRACTICES) {
-    const score = p.triggers.reduce((acc, k) => (t.includes(k) ? acc + 1 : acc), 0);
-    if (score > 0 && (!best || score > best.score)) best = { p, score };
+// ---------- Contextual suggestion engine ----------
+// Lightweight, fully client-side scoring across recent messages.
+// Combines: thematic triggers, sentiment cues (intensity / negation /
+// help-seeking) and recency weighting. Returns null when confidence is low.
+
+// Extra synonyms used to widen recall without losing precision.
+const THEME_SYNONYMS: Record<string, string[]> = {
+  "reg-1": ["arrabbiata", "arrabbiato", "furiosa", "furioso", "giù", "triste", "piango", "esplodere", "nervi"],
+  "auto-1": ["mi odio", "che stupida", "stupido", "incapace", "fallita", "fallito", "in colpa", "non valgo"],
+  "conf-1": ["invadente", "non riesco a dire no", "mi sento usata", "mi sento usato", "richieste continue", "spazio mio"],
+  "ans-1": ["ansiosa", "ansioso", "in ansia", "cuore a mille", "respiro corto", "attacco di panico", "preoccupata", "preoccupato"],
+  "son-1": ["non dormo", "non riesco a dormire", "sveglia di notte", "rimugino la sera", "a letto"],
+  "sov-1": ["non ce la faccio", "esausta", "esausto", "scoppio", "troppe cose", "tutto insieme", "non respiro"],
+  "adhd-1": ["mi distraggo", "salto da una cosa all'altra", "non mi concentro", "perdo il filo", "mille tab"],
+  "rel-1": ["abbiamo litigato", "ci siamo feriti", "non ci capiamo", "tensione con", "discussione"],
+  "lut-1": ["mi manca", "se ne è andato", "se ne è andata", "non c'è più", "anniversario"],
+  "gro-1": ["estraniata", "estraniato", "non sento il corpo", "tutto irreale", "annebbiata", "annebbiato"],
+};
+
+// Sentiment / intensity cues — boost when present, dampen when clearly positive.
+const INTENSITY_CUES = [
+  "tantissimo", "troppo", "troppa", "moltissimo", "davvero", "non ce la faccio",
+  "sto male", "esausta", "esausto", "esplodere", "sopraffatta", "sopraffatto", "schiacciata", "schiacciato",
+];
+const HELP_CUES = ["aiuto", "non so cosa fare", "consiglio", "come faccio", "non riesco"];
+const POSITIVE_CUES = ["va bene", "sto meglio", "sereno", "serena", "tranquilla", "tranquillo", "calmo", "calma", "grazie"];
+const NEGATIONS = ["non ", "non sono ", "non mi ", "non ho ", "niente ", "nessun"];
+
+function scorePractice(p: Practice, text: string): number {
+  const t = ` ${text.toLowerCase()} `;
+  const extras = THEME_SYNONYMS[p.id] ?? [];
+  const keys = [...p.triggers, ...extras];
+  let score = 0;
+  for (const k of keys) {
+    const needle = k.toLowerCase();
+    const idx = t.indexOf(needle);
+    if (idx === -1) continue;
+    // Dampen when keyword is preceded by a negation within ~14 chars.
+    const window = t.slice(Math.max(0, idx - 14), idx);
+    const negated = NEGATIONS.some((n) => window.endsWith(n));
+    score += negated ? 0.3 : 1;
   }
-  return best?.p ?? null;
+  return score;
+}
+
+function sentimentMultiplier(text: string): number {
+  const t = ` ${text.toLowerCase()} `;
+  let mult = 1;
+  if (INTENSITY_CUES.some((c) => t.includes(c))) mult += 0.5;
+  if (HELP_CUES.some((c) => t.includes(c))) mult += 0.3;
+  const positiveHits = POSITIVE_CUES.filter((c) => t.includes(c)).length;
+  if (positiveHits >= 2) mult *= 0.4;
+  return mult;
+}
+
+export type PracticeSuggestion = Practice & { _confidence: number };
+
+// Accepts a single string (latest message) or an array of recent user messages
+// ordered oldest→newest. Newer messages weigh more. Returns null when the
+// strongest match falls below a small confidence threshold so suggestions stay
+// contextual rather than reflexive.
+export function suggestPracticeForText(
+  input: string | string[],
+): PracticeSuggestion | null {
+  const recent = Array.isArray(input) ? input.slice(-4) : [input];
+  if (recent.length === 0) return null;
+
+  const totals = new Map<string, number>();
+  recent.forEach((msg, i) => {
+    const recency = 0.5 + (0.5 * (i + 1)) / recent.length; // 0.5 → 1.0
+    const sent = sentimentMultiplier(msg);
+    for (const p of PRACTICES) {
+      const s = scorePractice(p, msg) * recency * sent;
+      if (s > 0) totals.set(p.id, (totals.get(p.id) ?? 0) + s);
+    }
+  });
+
+  let bestId: string | null = null;
+  let bestScore = 0;
+  totals.forEach((score, id) => {
+    if (score > bestScore) {
+      bestScore = score;
+      bestId = id;
+    }
+  });
+
+  if (!bestId || bestScore < 1.2) return null;
+  const practice = PRACTICES.find((p) => p.id === bestId);
+  if (!practice) return null;
+  return { ...practice, _confidence: Number(bestScore.toFixed(2)) };
 }
 
 export { PRACTICES };
