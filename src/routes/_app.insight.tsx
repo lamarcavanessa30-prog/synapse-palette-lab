@@ -1053,6 +1053,45 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
+        <ProSection title="Fondamenti teorici utilizzati" index="12">
+          <p className="text-sm text-muted-foreground mb-4">
+            Le lenti teoriche elencate sono utilizzate come cornice interpretativa del materiale raccolto.
+            Per una mappa estesa di ciascun framework, dei suoi autori e dei suoi limiti, si rimanda alla
+            sezione <span className="text-foreground/85">Knowledge Architecture</span> dell'app.
+          </p>
+          <div className="space-y-3">
+            {[
+              { name: "CBT — Terapia Cognitivo Comportamentale", desc: "Lettura del legame pensieri-emozioni-comportamenti e delle distorsioni cognitive.", authors: "A. T. Beck, A. Ellis, J. S. Beck", role: "Riconoscimento di pattern di pensiero ricorrenti.", usage: "Utilizzo elevato" },
+              { name: "DBT — Dialectical Behavior Therapy", desc: "Abilità di regolazione emotiva, tolleranza del disagio, efficacia interpersonale.", authors: "M. M. Linehan", role: "Lettura delle oscillazioni emotive e delle dinamiche relazionali.", usage: "Utilizzo moderato" },
+              { name: "ACT — Acceptance and Commitment Therapy", desc: "Flessibilità psicologica, contatto con valori e azione impegnata.", authors: "S. C. Hayes, K. Wilson, K. Strosahl", role: "Lettura della coerenza tra valori dichiarati e scelte quotidiane.", usage: "Utilizzo moderato" },
+              { name: "Cornice ADHD-informata", desc: "Funzioni esecutive, percezione del tempo, regolazione dell'attenzione.", authors: "R. Barkley, T. Brown", role: "Descrizione educativa di pattern di avvio del compito e iperfocus.", usage: "Utilizzo preliminare" },
+              { name: "Cornice Trauma-informata", desc: "Sicurezza percepita, finestra di tolleranza, risposte di sopravvivenza.", authors: "B. van der Kolk, S. Porges", role: "Modulazione del tono delle osservazioni.", usage: "Utilizzo preliminare" },
+              { name: "Teoria dell'Attaccamento", desc: "Modelli operativi interni e dinamiche relazionali.", authors: "J. Bowlby, M. Ainsworth", role: "Lettura di dinamiche di prossimità e distanza nei legami.", usage: "Utilizzo moderato" },
+              { name: "Regolazione Emotiva (Gross)", desc: "Processi di influenza su quali emozioni si provano e come si esprimono.", authors: "J. J. Gross, L. F. Barrett", role: "Osservazione della granularità emotiva e delle strategie ricorrenti.", usage: "Utilizzo elevato" },
+              { name: "Psicologia Positiva", desc: "Risorse personali, forze di carattere, benessere e significato.", authors: "M. Seligman, C. Peterson", role: "Bilanciamento della lettura: nominare le risorse oltre alle difficoltà.", usage: "Utilizzo moderato" },
+              { name: "Mindfulness basata su evidenze", desc: "Pratiche di attenzione intenzionale, non giudicante.", authors: "J. Kabat-Zinn, Z. Segal", role: "Cornice delle Pause Guidate proposte nel percorso.", usage: "Utilizzo moderato" },
+            ].map((f) => (
+              <div key={f.name} className="rounded-2xl border border-border/60 p-5 bg-card">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h5 className="font-display text-lg">{f.name}</h5>
+                  <span className="text-[11px] uppercase tracking-widest text-muted-foreground">{f.usage}</span>
+                </div>
+                <p className="text-sm text-foreground/80 mt-2 leading-relaxed">{f.desc}</p>
+                <div className="grid sm:grid-cols-2 gap-3 mt-3 text-xs">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Autori principali</div>
+                    <div className="text-foreground/85 mt-0.5">{f.authors}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Ruolo nel report</div>
+                    <div className="text-foreground/85 mt-0.5">{f.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </ProSection>
+
         <ProDisclaimer text="Le osservazioni riportate non costituiscono una diagnosi né una valutazione clinica. Il documento è pensato come mappa ragionata del materiale raccolto, a supporto del dialogo con il professionista. L'interpretazione clinica resta di esclusiva competenza dello specialista." />
       </div>
     </article>
