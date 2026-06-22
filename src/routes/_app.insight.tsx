@@ -42,6 +42,35 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import { ReasoningTrace, type ReasoningTraceData } from "@/components/ReasoningTrace";
+
+// ——— Reasoning traces (mock) ———
+const TRACE_EMOTIONAL: ReasoningTraceData = {
+  observation: "Tendenza generale verso una calma più stabile nella settimana.",
+  sources: [
+    { type: "chat", label: "12 conversazioni con riferimenti a stati emotivi", date: "ultimi 7 gg" },
+    { type: "journal", label: "8 pensieri con descrittori emotivi espliciti", date: "ultima settimana" },
+    { type: "pattern", label: "Pattern: tensione serale ricorrente", date: "ricorrente" },
+    { type: "milestone", label: "Routine serale stabile per 21 giorni", date: "maggio" },
+  ],
+  evidence: { count: 20, distribution: "Distribuita su 7 giorni consecutivi", continuity: "Continua nelle ultime 3 settimane", recurrence: "Ricorrente, soprattutto nelle ore serali" },
+  frameworks: ["Regolazione Emotiva", "DBT", "Mindfulness"],
+  confidence: "high",
+  limits: "Questa osservazione si basa su materiale condiviso spontaneamente dall'utente e potrebbe non rappresentare l'intera esperienza della persona.",
+};
+
+const TRACE_THEMES: ReasoningTraceData = {
+  observation: "I confini personali sono il tema più presente nel materiale recente.",
+  sources: [
+    { type: "theme", label: "Tema attivo: Confini personali", date: "attivo" },
+    { type: "chat", label: "5 conversazioni in cui hai descritto un 'sì' faticoso", date: "ultimi 14 gg" },
+    { type: "journal", label: "Voce di diario · «Il limite»", date: "7 giu" },
+  ],
+  evidence: { count: 24, distribution: "Concentrata nelle ultime 4 settimane", continuity: "Tema presente in modo discontinuo da 3 mesi", recurrence: "Ricorrente in contesti lavorativi e familiari" },
+  frameworks: ["CBT", "Attaccamento", "ACT"],
+  confidence: "very-high",
+  limits: "La frequenza non implica importanza: Hu-Mind sta proponendo questa lettura come ipotesi, da confermare nel dialogo.",
+};
 
 export const Route = createFileRoute("/_app/insight")({
   component: InsightPage,
