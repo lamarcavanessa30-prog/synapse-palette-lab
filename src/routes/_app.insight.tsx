@@ -351,6 +351,7 @@ function OverviewTab() {
             <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.dust }} /> Energia</span>
             <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.anthracite }} /> Tensione</span>
           </div>
+          <ReasoningTrace data={TRACE_EMOTIONAL} />
         </Card>
       </section>
 
@@ -386,6 +387,7 @@ function OverviewTab() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          <ReasoningTrace data={TRACE_THEMES} />
         </Card>
       </section>
 
