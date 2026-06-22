@@ -42,6 +42,35 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import { ReasoningTrace, type ReasoningTraceData } from "@/components/ReasoningTrace";
+
+// ——— Reasoning traces (mock) ———
+const TRACE_EMOTIONAL: ReasoningTraceData = {
+  observation: "Tendenza generale verso una calma più stabile nella settimana.",
+  sources: [
+    { type: "chat", label: "12 conversazioni con riferimenti a stati emotivi", date: "ultimi 7 gg" },
+    { type: "journal", label: "8 pensieri con descrittori emotivi espliciti", date: "ultima settimana" },
+    { type: "pattern", label: "Pattern: tensione serale ricorrente", date: "ricorrente" },
+    { type: "milestone", label: "Routine serale stabile per 21 giorni", date: "maggio" },
+  ],
+  evidence: { count: 20, distribution: "Distribuita su 7 giorni consecutivi", continuity: "Continua nelle ultime 3 settimane", recurrence: "Ricorrente, soprattutto nelle ore serali" },
+  frameworks: ["Regolazione Emotiva", "DBT", "Mindfulness"],
+  confidence: "high",
+  limits: "Questa osservazione si basa su materiale condiviso spontaneamente dall'utente e potrebbe non rappresentare l'intera esperienza della persona.",
+};
+
+const TRACE_THEMES: ReasoningTraceData = {
+  observation: "I confini personali sono il tema più presente nel materiale recente.",
+  sources: [
+    { type: "theme", label: "Tema attivo: Confini personali", date: "attivo" },
+    { type: "chat", label: "5 conversazioni in cui hai descritto un 'sì' faticoso", date: "ultimi 14 gg" },
+    { type: "journal", label: "Voce di diario · «Il limite»", date: "7 giu" },
+  ],
+  evidence: { count: 24, distribution: "Concentrata nelle ultime 4 settimane", continuity: "Tema presente in modo discontinuo da 3 mesi", recurrence: "Ricorrente in contesti lavorativi e familiari" },
+  frameworks: ["CBT", "Attaccamento", "ACT"],
+  confidence: "very-high",
+  limits: "La frequenza non implica importanza: Hu-Mind sta proponendo questa lettura come ipotesi, da confermare nel dialogo.",
+};
 
 export const Route = createFileRoute("/_app/insight")({
   component: InsightPage,
@@ -322,6 +351,7 @@ function OverviewTab() {
             <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.dust }} /> Energia</span>
             <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.anthracite }} /> Tensione</span>
           </div>
+          <ReasoningTrace data={TRACE_EMOTIONAL} />
         </Card>
       </section>
 
@@ -357,6 +387,7 @@ function OverviewTab() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+          <ReasoningTrace data={TRACE_THEMES} />
         </Card>
       </section>
 
@@ -1018,6 +1049,45 @@ function ProfessionalReport() {
           <div className="space-y-2">
             {proQuotes.map((q) => (
               <blockquote key={q} className="text-sm italic text-foreground/80 border-l-2 border-border pl-4">{q}</blockquote>
+            ))}
+          </div>
+        </ProSection>
+
+        <ProSection title="Fondamenti teorici utilizzati" index="12">
+          <p className="text-sm text-muted-foreground mb-4">
+            Le lenti teoriche elencate sono utilizzate come cornice interpretativa del materiale raccolto.
+            Per una mappa estesa di ciascun framework, dei suoi autori e dei suoi limiti, si rimanda alla
+            sezione <span className="text-foreground/85">Knowledge Architecture</span> dell'app.
+          </p>
+          <div className="space-y-3">
+            {[
+              { name: "CBT — Terapia Cognitivo Comportamentale", desc: "Lettura del legame pensieri-emozioni-comportamenti e delle distorsioni cognitive.", authors: "A. T. Beck, A. Ellis, J. S. Beck", role: "Riconoscimento di pattern di pensiero ricorrenti.", usage: "Utilizzo elevato" },
+              { name: "DBT — Dialectical Behavior Therapy", desc: "Abilità di regolazione emotiva, tolleranza del disagio, efficacia interpersonale.", authors: "M. M. Linehan", role: "Lettura delle oscillazioni emotive e delle dinamiche relazionali.", usage: "Utilizzo moderato" },
+              { name: "ACT — Acceptance and Commitment Therapy", desc: "Flessibilità psicologica, contatto con valori e azione impegnata.", authors: "S. C. Hayes, K. Wilson, K. Strosahl", role: "Lettura della coerenza tra valori dichiarati e scelte quotidiane.", usage: "Utilizzo moderato" },
+              { name: "Cornice ADHD-informata", desc: "Funzioni esecutive, percezione del tempo, regolazione dell'attenzione.", authors: "R. Barkley, T. Brown", role: "Descrizione educativa di pattern di avvio del compito e iperfocus.", usage: "Utilizzo preliminare" },
+              { name: "Cornice Trauma-informata", desc: "Sicurezza percepita, finestra di tolleranza, risposte di sopravvivenza.", authors: "B. van der Kolk, S. Porges", role: "Modulazione del tono delle osservazioni.", usage: "Utilizzo preliminare" },
+              { name: "Teoria dell'Attaccamento", desc: "Modelli operativi interni e dinamiche relazionali.", authors: "J. Bowlby, M. Ainsworth", role: "Lettura di dinamiche di prossimità e distanza nei legami.", usage: "Utilizzo moderato" },
+              { name: "Regolazione Emotiva (Gross)", desc: "Processi di influenza su quali emozioni si provano e come si esprimono.", authors: "J. J. Gross, L. F. Barrett", role: "Osservazione della granularità emotiva e delle strategie ricorrenti.", usage: "Utilizzo elevato" },
+              { name: "Psicologia Positiva", desc: "Risorse personali, forze di carattere, benessere e significato.", authors: "M. Seligman, C. Peterson", role: "Bilanciamento della lettura: nominare le risorse oltre alle difficoltà.", usage: "Utilizzo moderato" },
+              { name: "Mindfulness basata su evidenze", desc: "Pratiche di attenzione intenzionale, non giudicante.", authors: "J. Kabat-Zinn, Z. Segal", role: "Cornice delle Pause Guidate proposte nel percorso.", usage: "Utilizzo moderato" },
+            ].map((f) => (
+              <div key={f.name} className="rounded-2xl border border-border/60 p-5 bg-card">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h5 className="font-display text-lg">{f.name}</h5>
+                  <span className="text-[11px] uppercase tracking-widest text-muted-foreground">{f.usage}</span>
+                </div>
+                <p className="text-sm text-foreground/80 mt-2 leading-relaxed">{f.desc}</p>
+                <div className="grid sm:grid-cols-2 gap-3 mt-3 text-xs">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Autori principali</div>
+                    <div className="text-foreground/85 mt-0.5">{f.authors}</div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Ruolo nel report</div>
+                    <div className="text-foreground/85 mt-0.5">{f.role}</div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </ProSection>
