@@ -1051,7 +1051,42 @@ function ProfessionalReport() {
           </ol>
         </ProSection>
 
-        <ProSection title="Domande vive" index="10">
+        <ProSection title="Funzionamento sensoriale e sociale" index="10">
+          <p className="text-sm text-muted-foreground mb-4">
+            Lettura non diagnostica ispirata alla cornice <span className="text-foreground/80">Autism-informed</span>. Descrive pattern di funzionamento (carico sensoriale, energia sociale, masking, routine rigeneranti) come descrittori utili al dialogo clinico, non come indicatori di disturbo.
+          </p>
+          <div className="space-y-3">
+            {proAutismPatterns.map((a) => (
+              <div key={a.label} className="rounded-2xl border border-border/60 bg-card p-5">
+                <h5 className="font-display text-lg">{a.label}</h5>
+                <p className="text-sm text-foreground/80 mt-2 leading-relaxed">{a.desc}</p>
+              </div>
+            ))}
+          </div>
+        </ProSection>
+
+        <ProSection title="Temi onirici ricorrenti" index="11">
+          <p className="text-sm text-muted-foreground mb-4">
+            Sintesi delle immagini oniriche più ricorrenti annotate dalla persona, messe in relazione descrittiva con gli eventi e gli stati riferiti durante il giorno. Le correlazioni sono presentate come osservazioni, non come interpretazioni cliniche.
+          </p>
+          <div className="space-y-3">
+            {proDreamThemes.map((d) => (
+              <div key={d.symbol} className="rounded-2xl border border-border/60 bg-card p-5">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h5 className="font-display text-lg">{d.symbol}</h5>
+                  <span className="text-[11px] uppercase tracking-widest text-muted-foreground">Correlato diurno</span>
+                </div>
+                <p className="text-sm text-foreground/85 mt-2 leading-relaxed">{d.dayLink}</p>
+                <p className="text-sm text-foreground/75 mt-2 leading-relaxed italic">{d.note}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
+            L'attività onirica viene considerata come materiale narrativo della persona, non come oggetto di interpretazione simbolica universale. Le associazioni tra sogni e vita diurna sono basate esclusivamente su co-occorrenze temporali del materiale raccolto.
+          </p>
+        </ProSection>
+
+        <ProSection title="Domande vive" index="12">
           <ul className="space-y-3">
             {proLiveQuestions.map((q) => (
               <li key={q} className="rounded-xl border border-border/60 bg-secondary/30 p-4 text-foreground/85">{q}</li>
@@ -1059,7 +1094,7 @@ function ProfessionalReport() {
           </ul>
         </ProSection>
 
-        <ProSection title="Citazioni rappresentative" index="11">
+        <ProSection title="Citazioni rappresentative" index="13">
           <p className="text-sm text-muted-foreground mb-3">Estratti brevi e anonimizzati, utili a restituire il tono emotivo del materiale.</p>
           <div className="space-y-2">
             {proQuotes.map((q) => (
@@ -1067,6 +1102,7 @@ function ProfessionalReport() {
             ))}
           </div>
         </ProSection>
+
 
         <ProSection title="Fondamenti teorici utilizzati" index="12">
           <p className="text-sm text-muted-foreground mb-4">
