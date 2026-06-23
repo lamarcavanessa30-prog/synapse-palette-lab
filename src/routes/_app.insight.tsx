@@ -704,7 +704,6 @@ function ReportsTab() {
       <p className="text-xs text-muted-foreground -mt-2 max-w-2xl leading-relaxed">
         Entrambi i documenti sono liberamente scaricabili. Il <span className="text-foreground/80">Diario narrativo</span> è pensato per te; il <span className="text-foreground/80">Report professionista</span> è pensato per essere condiviso, se lo desideri, con un professionista di tua fiducia.
       </p>
-      </div>
 
       {mode === "personale" ? <PersonalReport /> : <ProfessionalReport />}
     </div>
