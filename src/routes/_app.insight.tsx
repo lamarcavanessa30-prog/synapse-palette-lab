@@ -9,7 +9,7 @@ import {
   FileText,
   Download,
   Share2,
-  Printer,
+  
   Info,
   Heart,
   Shield,
@@ -679,7 +679,7 @@ function ReportsTab() {
                 : "bg-card border-border/60 hover:bg-muted"
             }`}
           >
-            <Download className="size-4" /> Scarica report personale
+            <Heart className="size-4" /> Diario narrativo
           </button>
           <button
             onClick={() => setMode("professionista")}
@@ -689,16 +689,21 @@ function ReportsTab() {
                 : "bg-card border-border/60 hover:bg-muted"
             }`}
           >
-            <FileText className="size-4" /> Genera report professionista
+            <FileText className="size-4" /> Report professionista
           </button>
           <button
             onClick={() => typeof window !== "undefined" && window.print()}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border/60 text-sm hover:bg-muted transition"
+            title={mode === "personale" ? "Scarica il Diario narrativo in PDF" : "Scarica il Report professionista in PDF"}
           >
-            <Printer className="size-4" /> Esporta in PDF
+            <Download className="size-4" /> Scarica {mode === "personale" ? "diario" : "report"} (PDF)
           </button>
         </div>
       </div>
+
+      <p className="text-xs text-muted-foreground -mt-2 max-w-2xl leading-relaxed">
+        Entrambi i documenti sono liberamente scaricabili. Il <span className="text-foreground/80">Diario narrativo</span> è pensato per te; il <span className="text-foreground/80">Report professionista</span> è pensato per essere condiviso, se lo desideri, con un professionista di tua fiducia.
+      </p>
 
       {mode === "personale" ? <PersonalReport /> : <ProfessionalReport />}
     </div>
@@ -762,6 +767,29 @@ function PersonalReport() {
               <li key={q} className="border-l-2 border-primary/40 pl-4 text-foreground/85">{q}</li>
             ))}
           </ul>
+        </ReportSection>
+
+        <ReportSection title="Epifanie">
+          <p className="text-sm text-muted-foreground -mt-1 mb-4">
+            Frasi brevi che hanno provato a dare un nome a qualcosa che già sentivi. Non sono verità: sono offerte. Tienile se ti risuonano, lasciale andare se non lo fanno.
+          </p>
+          <div className="space-y-4">
+            {[
+              { line: "Non è stanchezza fisica, è una stanchezza di scelte.", why: "Connessa al pattern di sovraccarico decisionale osservato nelle giornate ad alta densità di richieste." },
+              { line: "Ti muovi come se dovessi sempre chiedere il permesso di esistere.", why: "Lettura ispirata alla Teoria dell'Attaccamento, a partire da ricorrenze di compiacenza nei contesti professionali." },
+              { line: "Il tuo «sì» pesa più dei tuoi «no».", why: "Pattern osservato di confini negoziati a fatica, con costo energetico riferito il giorno seguente." },
+              { line: "Stai imparando a stare con quello che senti senza doverlo aggiustare subito.", why: "Indicatore descrittivo di tolleranza al disagio, in linea con la cornice DBT." },
+            ].map((e) => (
+              <figure key={e.line} className="rounded-2xl border border-border/60 bg-gradient-to-br from-secondary/40 to-card p-5">
+                <blockquote className="font-display text-lg md:text-xl leading-snug text-foreground">
+                  &ldquo;{e.line}&rdquo;
+                </blockquote>
+                <figcaption className="mt-3 text-xs text-muted-foreground leading-relaxed">
+                  <span className="uppercase tracking-widest">Perché</span> · {e.why}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </ReportSection>
 
         <ProDisclaimer text="Questo documento è uno strumento di auto-riflessione. Non costituisce una diagnosi, una valutazione clinica né un consiglio medico. Per un percorso terapeutico, rivolgiti a un professionista qualificato." />
@@ -841,8 +869,23 @@ const proFrameworks = [
   { name: "DBT", focus: "Regolazione e tolleranza", themes: ["Tolleranza al disagio", "Efficacia interpersonale"], evidence: "Evidenza moderata", note: "Le osservazioni suggeriscono una progressiva capacità di stare con stati emotivi intensi senza azioni reattive immediate." },
   { name: "ACT", focus: "Flessibilità psicologica", themes: ["Contatto con i valori", "Defusione cognitiva"], evidence: "Evidenza moderata", note: "Sembra emergere un riferimento più stabile ad alcuni valori personali nelle decisioni quotidiane." },
   { name: "ADHD-informed", focus: "Funzioni esecutive", themes: ["Avvio del compito", "Percezione del tempo"], evidence: "Evidenza preliminare", note: "Si osservano episodi ricorrenti di difficoltà di avvio non riconducibili a mancanza di motivazione." },
+  { name: "Autism-informed", focus: "Funzionamento sensoriale e sociale", themes: ["Carico sensoriale", "Energia sociale", "Masking", "Routine rigeneranti"], evidence: "Evidenza preliminare", note: "Emergono pattern compatibili con una sensibilità sensoriale elevata e un alto costo energetico nella navigazione sociale, accompagnati da riferimenti a strategie di adattamento (masking) in contesti formali. Si segnala la presenza di interessi profondi descritti come fonte stabile di rigenerazione. Non si tratta di indicatori diagnostici, ma di descrittori funzionali utili al dialogo clinico." },
   { name: "Attaccamento e Relazioni", focus: "Modelli relazionali", themes: ["Ricerca di prossimità", "Gestione della distanza"], evidence: "Evidenza moderata", note: "È stato registrato con maggiore continuità un lavoro di negoziazione nei legami significativi." },
   { name: "Trauma-informed", focus: "Sicurezza percepita", themes: ["Evitamento mirato", "Comportamenti di protezione"], evidence: "Evidenza preliminare", note: "Le osservazioni vengono presentate come ipotesi e non come indicatori clinici." },
+];
+
+const proAutismPatterns = [
+  { label: "Carico sensoriale", desc: "Riferimenti ricorrenti a stanchezza dopo ambienti rumorosi, luci intense o spazi affollati. La persona descrive il bisogno di rientro in ambienti a stimolazione ridotta come modalità rigenerativa." },
+  { label: "Energia sociale (social battery)", desc: "Le interazioni prolungate sembrano comportare un costo energetico significativo, con tempi di recupero descritti come più lunghi rispetto al carico percepito durante l'evento." },
+  { label: "Masking", desc: "Sono presenti riferimenti espliciti allo sforzo di 'sembrare nella norma' in contesti professionali, con conseguente affaticamento descritto a posteriori." },
+  { label: "Interessi profondi e routine rigeneranti", desc: "Vengono nominate attività specifiche descritte come fonte stabile di concentrazione, piacere e regolazione. Funzionano come risorsa, non come evitamento." },
+];
+
+const proDreamThemes = [
+  { symbol: "Acqua che sale / sommersione", dayLink: "Picchi di ansia da prestazione e scadenze ravvicinate", note: "Si osserva una correlazione ricorrente tra immagini oniriche di sommersione e periodi in cui la persona ha descritto la sensazione di 'non riuscire a stare al passo'." },
+  { symbol: "Stanze sconosciute nella propria casa", dayLink: "Periodi di ridefinizione personale o decisionale", note: "Le immagini di scoperta di spazi interni nuovi tendono a comparire in concomitanza con riflessioni sulla propria identità professionale." },
+  { symbol: "Inseguimenti senza minaccia esplicita", dayLink: "Settimane ad alto carico relazionale", note: "L'elemento ricorrente non è la paura quanto la fatica del movimento, in parallelo con riferimenti diurni a richieste relazionali percepite come eccessive." },
+  { symbol: "Voce che non esce", dayLink: "Episodi di confini negoziati a fatica", note: "Compare in prossimità di situazioni in cui la persona descrive di aver detto 'sì' a malincuore." },
 ];
 
 const proTimeline = [
@@ -1036,7 +1079,42 @@ function ProfessionalReport() {
           </ol>
         </ProSection>
 
-        <ProSection title="Domande vive" index="10">
+        <ProSection title="Funzionamento sensoriale e sociale" index="10">
+          <p className="text-sm text-muted-foreground mb-4">
+            Lettura non diagnostica ispirata alla cornice <span className="text-foreground/80">Autism-informed</span>. Descrive pattern di funzionamento (carico sensoriale, energia sociale, masking, routine rigeneranti) come descrittori utili al dialogo clinico, non come indicatori di disturbo.
+          </p>
+          <div className="space-y-3">
+            {proAutismPatterns.map((a) => (
+              <div key={a.label} className="rounded-2xl border border-border/60 bg-card p-5">
+                <h5 className="font-display text-lg">{a.label}</h5>
+                <p className="text-sm text-foreground/80 mt-2 leading-relaxed">{a.desc}</p>
+              </div>
+            ))}
+          </div>
+        </ProSection>
+
+        <ProSection title="Temi onirici ricorrenti" index="11">
+          <p className="text-sm text-muted-foreground mb-4">
+            Sintesi delle immagini oniriche più ricorrenti annotate dalla persona, messe in relazione descrittiva con gli eventi e gli stati riferiti durante il giorno. Le correlazioni sono presentate come osservazioni, non come interpretazioni cliniche.
+          </p>
+          <div className="space-y-3">
+            {proDreamThemes.map((d) => (
+              <div key={d.symbol} className="rounded-2xl border border-border/60 bg-card p-5">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h5 className="font-display text-lg">{d.symbol}</h5>
+                  <span className="text-[11px] uppercase tracking-widest text-muted-foreground">Correlato diurno</span>
+                </div>
+                <p className="text-sm text-foreground/85 mt-2 leading-relaxed">{d.dayLink}</p>
+                <p className="text-sm text-foreground/75 mt-2 leading-relaxed italic">{d.note}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground leading-relaxed">
+            L'attività onirica viene considerata come materiale narrativo della persona, non come oggetto di interpretazione simbolica universale. Le associazioni tra sogni e vita diurna sono basate esclusivamente su co-occorrenze temporali del materiale raccolto.
+          </p>
+        </ProSection>
+
+        <ProSection title="Domande vive" index="12">
           <ul className="space-y-3">
             {proLiveQuestions.map((q) => (
               <li key={q} className="rounded-xl border border-border/60 bg-secondary/30 p-4 text-foreground/85">{q}</li>
@@ -1044,7 +1122,7 @@ function ProfessionalReport() {
           </ul>
         </ProSection>
 
-        <ProSection title="Citazioni rappresentative" index="11">
+        <ProSection title="Citazioni rappresentative" index="13">
           <p className="text-sm text-muted-foreground mb-3">Estratti brevi e anonimizzati, utili a restituire il tono emotivo del materiale.</p>
           <div className="space-y-2">
             {proQuotes.map((q) => (
@@ -1053,7 +1131,8 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Fondamenti teorici utilizzati" index="12">
+
+        <ProSection title="Fondamenti teorici utilizzati" index="14">
           <p className="text-sm text-muted-foreground mb-4">
             Le lenti teoriche elencate sono utilizzate come cornice interpretativa del materiale raccolto.
             Per una mappa estesa di ciascun framework, dei suoi autori e dei suoi limiti, si rimanda alla
@@ -1065,6 +1144,7 @@ function ProfessionalReport() {
               { name: "DBT — Dialectical Behavior Therapy", desc: "Abilità di regolazione emotiva, tolleranza del disagio, efficacia interpersonale.", authors: "M. M. Linehan", role: "Lettura delle oscillazioni emotive e delle dinamiche relazionali.", usage: "Utilizzo moderato" },
               { name: "ACT — Acceptance and Commitment Therapy", desc: "Flessibilità psicologica, contatto con valori e azione impegnata.", authors: "S. C. Hayes, K. Wilson, K. Strosahl", role: "Lettura della coerenza tra valori dichiarati e scelte quotidiane.", usage: "Utilizzo moderato" },
               { name: "Cornice ADHD-informata", desc: "Funzioni esecutive, percezione del tempo, regolazione dell'attenzione.", authors: "R. Barkley, T. Brown", role: "Descrizione educativa di pattern di avvio del compito e iperfocus.", usage: "Utilizzo preliminare" },
+              { name: "Cornice Autism-informata", desc: "Profili sensoriali, energia sociale, masking, interessi profondi e routine rigeneranti, letti in chiave funzionale (non diagnostica).", authors: "D. Murray, F. Happé, S. Kapp, C. Pellicano", role: "Lettura del carico sensoriale, della social battery e del costo dell'adattamento, come descrittori utili al dialogo clinico.", usage: "Utilizzo preliminare" },
               { name: "Cornice Trauma-informata", desc: "Sicurezza percepita, finestra di tolleranza, risposte di sopravvivenza.", authors: "B. van der Kolk, S. Porges", role: "Modulazione del tono delle osservazioni.", usage: "Utilizzo preliminare" },
               { name: "Teoria dell'Attaccamento", desc: "Modelli operativi interni e dinamiche relazionali.", authors: "J. Bowlby, M. Ainsworth", role: "Lettura di dinamiche di prossimità e distanza nei legami.", usage: "Utilizzo moderato" },
               { name: "Regolazione Emotiva (Gross)", desc: "Processi di influenza su quali emozioni si provano e come si esprimono.", authors: "J. J. Gross, L. F. Barrett", role: "Osservazione della granularità emotiva e delle strategie ricorrenti.", usage: "Utilizzo elevato" },
