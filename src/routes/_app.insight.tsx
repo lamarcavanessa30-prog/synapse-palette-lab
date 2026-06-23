@@ -679,7 +679,7 @@ function ReportsTab() {
                 : "bg-card border-border/60 hover:bg-muted"
             }`}
           >
-            <Download className="size-4" /> Scarica report personale
+            <Heart className="size-4" /> Diario narrativo
           </button>
           <button
             onClick={() => setMode("professionista")}
@@ -689,15 +689,21 @@ function ReportsTab() {
                 : "bg-card border-border/60 hover:bg-muted"
             }`}
           >
-            <FileText className="size-4" /> Genera report professionista
+            <FileText className="size-4" /> Report professionista
           </button>
           <button
             onClick={() => typeof window !== "undefined" && window.print()}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border/60 text-sm hover:bg-muted transition"
+            title={mode === "personale" ? "Scarica il Diario narrativo in PDF" : "Scarica il Report professionista in PDF"}
           >
-            <Printer className="size-4" /> Esporta in PDF
+            <Download className="size-4" /> Scarica {mode === "personale" ? "diario" : "report"} (PDF)
           </button>
         </div>
+      </div>
+
+      <p className="text-xs text-muted-foreground -mt-2 max-w-2xl leading-relaxed">
+        Entrambi i documenti sono liberamente scaricabili. Il <span className="text-foreground/80">Diario narrativo</span> è pensato per te; il <span className="text-foreground/80">Report professionista</span> è pensato per essere condiviso, se lo desideri, con un professionista di tua fiducia.
+      </p>
       </div>
 
       {mode === "personale" ? <PersonalReport /> : <ProfessionalReport />}
