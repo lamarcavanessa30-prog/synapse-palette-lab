@@ -19,7 +19,7 @@ const emergingThemes = [
 
 const livingQuestion = {
   text: "Cosa ti restituisce energia quando il riposo non basta?",
-  context: "Questa domanda emerge dai temi più ricorrenti delle ultime settimane.",
+  context: "Questa domanda nasce dai temi che stanno tornando più spesso nella tua storia.",
 };
 
 function HomePage() {
@@ -31,11 +31,14 @@ function HomePage() {
         <h1 className="font-display text-3xl md:text-5xl leading-[1.1] text-foreground max-w-2xl mx-auto">
           Cosa ti passa per la testa oggi?
         </h1>
+        <p className="mt-4 max-w-xl mx-auto text-sm text-muted-foreground/70 leading-relaxed">
+          Ogni pensiero può aiutare a comprendere meglio la tua storia.
+        </p>
         <Link
           to="/chat"
-          className="group block w-full max-w-2xl mx-auto mt-8 rounded-2xl border border-border/60 bg-card p-6 md:p-8 shadow-soft hover:bg-muted/30 hover:border-primary/20 transition cursor-pointer"
+          className="group block w-full max-w-2xl mx-auto mt-6 rounded-3xl border border-border/30 bg-card/70 backdrop-blur-sm p-7 md:p-10 shadow-soft transition-all duration-300 ease-out hover:bg-card hover:border-border/50 hover:-translate-y-0.5 cursor-pointer"
         >
-          <span className="font-display text-lg md:text-xl text-muted-foreground group-hover:text-foreground/70 transition">
+          <span className="font-display text-xl md:text-2xl text-muted-foreground/80 group-hover:text-foreground/70 transition-colors duration-300 leading-relaxed">
             Scrivi un pensiero...
           </span>
         </Link>
@@ -78,9 +81,9 @@ function HomePage() {
         </div>
         <div className="divide-y divide-border/50">
           {recent.map((r, i) => (
-            <article key={i} className="py-5 first:pt-0 last:pb-0 group">
-              <p className="font-display text-lg leading-snug text-foreground/90">{r.text}</p>
-              <div className="mt-2 text-xs text-muted-foreground">{r.time}</div>
+            <article key={i} className="py-6 first:pt-0 last:pb-0 group">
+              <p className="font-display text-lg leading-relaxed text-foreground/90">{r.text}</p>
+              <div className="mt-3 text-xs text-muted-foreground/70">{r.time}</div>
             </article>
           ))}
         </div>
