@@ -2,6 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Sparkles, Send, Paperclip, BookMarked, AlertTriangle, X, Wind, Clock } from "lucide-react";
 import { suggestPracticeForText } from "./_app.pause";
+import {
+  analyzeConversationDepth,
+  type ConversationDepthId,
+} from "@/domain/conversationAdaptation";
 import { useThoughts } from "@/domain/ThoughtsProvider";
 
 export const Route = createFileRoute("/_app/chat")({
@@ -9,7 +13,8 @@ export const Route = createFileRoute("/_app/chat")({
 });
 
 type Msg = { id: number; from: "me" | "ai"; text: string; refs?: string[]; level?: DepthId };
-type DepthId = "ascolto" | "riflessione" | "esplorazione" | "autoanalisi" | "specchio";
+type DepthId = ConversationDepthId;
+type ModeId = "automatica" | DepthId;
 
 type Depth = {
   id: DepthId;
@@ -91,7 +96,14 @@ const DEPTHS: Depth[] = [
   },
 ];
 
-const STORAGE_KEY = "humind.chat.depth";
+const AUTO_MODE = {
+  id: "automatica",
+  label: "Automatica ⭐ (Consigliata)",
+  description: "Hu-Mind adatta profondità, ritmo e stile in base alla scrittura.",
+};
+
+const DEPTH_STORAGE_KEY = "humind.chat.depth";
+const MODE_STORAGE_KEY = "humind.chat.mode";
 
 function formatThoughtRef(createdAt: string) {
   return new Intl.DateTimeFormat("it-IT", {
@@ -104,11 +116,12 @@ function formatThoughtRef(createdAt: string) {
 
 function ChatPage() {
   const { addThought, thoughts } = useThoughts();
-  const [depthId, setDepthId] = useState<DepthId>("riflessione");
+  const [modeId, setModeId] = useState<ModeId>("automatica");
+  const [depthId, setDepthId] = useState<DepthId>("ascolto");
   const [acknowledgedAdvanced, setAcknowledgedAdvanced] = useState<Record<string, boolean>>({});
   const [pendingDepth, setPendingDepth] = useState<Depth | null>(null);
   const [messages, setMessages] = useState<Msg[]>([
-    { id: 1, from: "ai", text: "Ehi, bentornata. Scrivi quello che ti attraversa: lo conserverò nella tua memoria narrativa e potremo osservarne i fili nel tempo.", level: "riflessione" },
+    { id: 1, from: "ai", text: "Ehi, bentornata. Scrivi quello che ti attraversa: lo conserverò nella tua memoria narrativa e potremo osservarne i fili nel tempo.", level: "ascolto" },
   ]);
   const [input, setInput] = useState("");
   const [suggestion, setSuggestion] = useState<ReturnType<typeof suggestPracticeForText>>(null);
@@ -116,30 +129,48 @@ function ChatPage() {
   const [lastSuggestionAt, setLastSuggestionAt] = useState(-99);
   const [dismissed, setDismissed] = useState<string[]>([]);
 
-  // Restore depth from localStorage
+  // Restore conversation preferences from localStorage.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (saved && DEPTHS.some((d) => d.id === saved)) {
-      setDepthId(saved as DepthId);
+    const savedDepth = window.localStorage.getItem(DEPTH_STORAGE_KEY);
+    const savedMode = window.localStorage.getItem(MODE_STORAGE_KEY);
+
+    if (savedDepth && DEPTHS.some((d) => d.id === savedDepth)) {
+      setDepthId(savedDepth as DepthId);
+    }
+
+    if (
+      savedMode === AUTO_MODE.id ||
+      (savedMode && DEPTHS.some((d) => d.id === savedMode))
+    ) {
+      setModeId(savedMode as ModeId);
     }
   }, []);
 
-  // Persist depth
+  // TODO: Replace local preference persistence with the future conversation backend.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    window.localStorage.setItem(STORAGE_KEY, depthId);
+    window.localStorage.setItem(DEPTH_STORAGE_KEY, depthId);
   }, [depthId]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(MODE_STORAGE_KEY, modeId);
+  }, [modeId]);
 
   const depth = DEPTHS.find((d) => d.id === depthId) ?? DEPTHS[1];
   const latestThoughtRefs = thoughts.slice(0, 2).map((thought) => formatThoughtRef(thought.createdAt));
 
   const requestDepth = (next: Depth) => {
-    if (next.id === depth.id) return;
+    if (next.id === depth.id) {
+      setModeId(next.id);
+      return;
+    }
     if (next.advanced && !acknowledgedAdvanced[next.id]) {
       setPendingDepth(next);
       return;
     }
+    setModeId(next.id);
     applyDepth(next);
   };
 
@@ -159,8 +190,14 @@ function ChatPage() {
   const confirmAdvanced = () => {
     if (!pendingDepth) return;
     setAcknowledgedAdvanced((a) => ({ ...a, [pendingDepth.id]: true }));
+    setModeId(pendingDepth.id);
     applyDepth(pendingDepth);
     setPendingDepth(null);
+  };
+
+  const activateAutomaticMode = () => {
+    setPendingDepth(null);
+    setModeId("automatica");
   };
 
   const send = () => {
@@ -171,12 +208,26 @@ function ChatPage() {
     setInput("");
     const nextCount = userMsgCount + 1;
     setUserMsgCount(nextCount);
-    const current = DEPTHS.find((d) => d.id === depthId) ?? DEPTHS[1];
     // Build rolling context: last few user messages, oldest → newest.
     const recentUserTexts = [
       ...messages.filter((mm) => mm.from === "me").slice(-3).map((mm) => mm.text),
       text,
     ];
+    const adaptation =
+      modeId === "automatica"
+        ? analyzeConversationDepth({
+            message: text,
+            recentUserMessages: recentUserTexts,
+            currentDepth: depthId,
+          })
+        : null;
+    const nextDepthId = adaptation?.nextDepth ?? depthId;
+    const current = DEPTHS.find((d) => d.id === nextDepthId) ?? DEPTHS[1];
+
+    if (adaptation && nextDepthId !== depthId) {
+      setDepthId(nextDepthId);
+    }
+
     setTimeout(() => {
       setMessages((m) => [
         ...m,
@@ -205,7 +256,11 @@ function ChatPage() {
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className={`size-2 rounded-full ${depth.dot} animate-pulse-soft`} />
-              <span>in modalità {depth.label.toLowerCase()}</span>
+              <span>
+                {modeId === "automatica"
+                  ? `automatica · ${depth.label.toLowerCase()}`
+                  : `in modalità ${depth.label.toLowerCase()}`}
+              </span>
             </div>
           </div>
 
@@ -220,8 +275,23 @@ function ChatPage() {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
+              <button
+                onClick={activateAutomaticMode}
+                title={AUTO_MODE.description}
+                className={[
+                  "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition",
+                  modeId === "automatica"
+                    ? "bg-secondary border-border ring-2 ring-primary/30"
+                    : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/60",
+                ].join(" ")}
+              >
+                <Sparkles className="size-3.5" />
+                <span className={modeId === "automatica" ? "text-foreground font-medium" : ""}>
+                  {AUTO_MODE.label}
+                </span>
+              </button>
               {DEPTHS.map((d) => {
-                const active = d.id === depth.id;
+                const active = modeId !== "automatica" && d.id === depth.id;
                 return (
                   <button
                     key={d.id}
@@ -240,7 +310,10 @@ function ChatPage() {
                 );
               })}
             </div>
-            <p className="mt-2 text-xs text-muted-foreground italic">{depth.guide}</p>
+            <p className="mt-2 text-xs text-muted-foreground italic">
+              Hu-Mind osserva il modo in cui scrivi e adatta naturalmente profondità, ritmo e stile della conversazione. Puoi sempre scegliere manualmente una modalità.
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">{depth.guide}</p>
           </div>
 
           {thoughts.length > 0 && (
@@ -365,7 +438,11 @@ function ChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
             rows={1}
-            placeholder={`Scrivi in modalità ${depth.label.toLowerCase()}…`}
+            placeholder={
+              modeId === "automatica"
+                ? "Scrivi liberamente: Hu-Mind adatta la conversazione…"
+                : `Scrivi in modalità ${depth.label.toLowerCase()}…`
+            }
             className="flex-1 resize-none bg-transparent outline-none py-2.5 px-2 leading-relaxed max-h-40"
           />
           <button onClick={send} className="size-10 grid place-items-center rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition shadow-soft">
