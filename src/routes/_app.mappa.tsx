@@ -39,6 +39,7 @@ function MapPage() {
         <div>
           <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Mappa</div>
           <h1 className="font-display text-2xl mt-1">Albero delle connessioni</h1>
+          <p className="text-xs text-muted-foreground mt-1">Demo visiva: i nodi non sono ancora generati dai tuoi pensieri.</p>
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-2 text-sm px-3 py-2 rounded-lg bg-card border border-border/60 hover:bg-muted">
@@ -108,7 +109,7 @@ function MapPage() {
 
         {/* Legend */}
         <div className="absolute bottom-24 md:bottom-8 left-8 glass rounded-2xl p-4 shadow-soft text-xs space-y-2">
-          <div className="uppercase tracking-widest text-[10px] text-muted-foreground mb-2">Temi attivi</div>
+          <div className="uppercase tracking-widest text-[10px] text-muted-foreground mb-2">Temi demo</div>
           {[
             { c: "var(--sage-deep)", l: "Architettura interiore", n: 24 },
             { c: "var(--dust)", l: "Rituali quotidiani", n: 11 },
@@ -127,10 +128,10 @@ function MapPage() {
           <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Nodo selezionato</div>
           <div className="font-display text-2xl mt-1">{hover ? byId[hover].label : "Lentezza"}</div>
           <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
-            Un tema che collega 14 pensieri e 6 altri argomenti. Si è definito ad aprile, dopo una lunga riflessione.
+            Nodo dimostrativo. In una versione successiva questa scheda userà i pensieri reali salvati nella memoria narrativa.
           </p>
           <div className="mt-4 pt-4 border-t border-border/60 flex justify-between text-xs text-muted-foreground">
-            <span>14 nodi</span><span>6 connessioni</span><span>aprile 2026</span>
+            <span>demo</span><span>non calcolato</span><span>dati locali futuri</span>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ import {
 } from "recharts";
 import { ReasoningTrace, type ReasoningTraceData } from "@/components/ReasoningTrace";
 
-// ——— Reasoning traces (mock) ———
+// ——— Reasoning traces (demo) ———
 const TRACE_EMOTIONAL: ReasoningTraceData = {
   observation: "Tendenza generale verso una calma più stabile nella settimana.",
   sources: [
@@ -86,7 +86,7 @@ const TABS: { id: TabId; label: string; icon: typeof LineChartIcon; hint: string
   { id: "reports", label: "Report", icon: FileText, hint: "Sintesi da scaricare" },
 ];
 
-// ——— Mock data ———
+// ——— Demo data: illustrative only, not computed from stored thoughts yet. ———
 const emotionalTrend = [
   { d: "Lun", calma: 62, energia: 48, tensione: 30 },
   { d: "Mar", calma: 58, energia: 55, tensione: 36 },
@@ -222,7 +222,7 @@ function Disclaimer({ compact = false }: { compact?: boolean }) {
     <div className={`flex gap-3 rounded-2xl border border-border/60 bg-secondary/40 ${compact ? "p-3" : "p-4 md:p-5"}`}>
       <Info className="size-4 text-primary shrink-0 mt-0.5" />
       <p className={`${compact ? "text-xs" : "text-xs md:text-sm"} text-foreground/75 leading-relaxed`}>
-        Hu-Mind offre spunti di auto-riflessione. <span className="text-foreground">Non formula diagnosi, valutazioni cliniche o consigli medici.</span> Per bisogni di salute, rivolgiti a un professionista qualificato.
+        Hu-Mind offre spunti di auto-riflessione. <span className="text-foreground">Non formula giudizi sulla persona, punteggi psicologici o consigli medici.</span>
       </p>
     </div>
   );
@@ -266,7 +266,7 @@ function InsightPage() {
         </div>
         <h1 className="font-display text-3xl md:text-5xl leading-[1.05]">Le connessioni che stiamo notando.</h1>
         <p className="text-sm md:text-base text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-          Una sintesi delle tue conversazioni, dei tuoi pensieri e dei questionari. Pensata per aiutarti a vedere più chiaramente, non per spiegarti chi sei.
+          Demo di sintesi narrativa. In futuro userà conversazioni e pensieri reali; per ora i grafici sono contenuti illustrativi.
         </p>
       </header>
 
@@ -316,7 +316,7 @@ function OverviewTab() {
         <SectionHeader
           eyebrow="tendenze emotive"
           title="Come si sono mosse le tue emozioni questa settimana"
-          sub="Linee morbide ricavate dalle tue conversazioni e dai pensieri raccolti. Sono indicazioni qualitative, non misure cliniche."
+          sub="Demo visiva di come potrebbero apparire tendenze qualitative. Non rappresenta dati reali."
         />
         <Card className="p-5 md:p-6">
           <div className="h-72">
@@ -347,9 +347,9 @@ function OverviewTab() {
             </ResponsiveContainer>
           </div>
           <div className="flex flex-wrap gap-4 mt-4 text-xs text-muted-foreground">
-            <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.sageDeep }} /> Calma</span>
-            <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.dust }} /> Energia</span>
-            <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.anthracite }} /> Tensione</span>
+            <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.sageDeep }} /> Calma demo</span>
+            <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.dust }} /> Energia demo</span>
+            <span className="flex items-center gap-2"><span className="size-2 rounded-full" style={{ background: C.anthracite }} /> Tensione demo</span>
           </div>
           <ReasoningTrace data={TRACE_EMOTIONAL} />
         </Card>
@@ -357,7 +357,7 @@ function OverviewTab() {
 
       <section className="grid md:grid-cols-2 gap-6">
         <Card className="p-5 md:p-6">
-          <SectionHeader eyebrow="oscillazioni d'umore" title="Otto settimane di umore percepito" />
+          <SectionHeader eyebrow="demo andamento" title="Esempio di andamento narrativo" />
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={moodFluctuation} margin={{ left: -10, right: 10, top: 0, bottom: 0 }}>
@@ -370,12 +370,12 @@ function OverviewTab() {
             </ResponsiveContainer>
           </div>
           <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-            Un movimento leggero verso un umore più stabile, con piccole flessioni nelle settimane più cariche di lavoro.
+            Esempio dimostrativo: questa linea non è ancora calcolata dai tuoi pensieri reali.
           </p>
         </Card>
 
         <Card className="p-5 md:p-6">
-          <SectionHeader eyebrow="temi ricorrenti" title="Di cosa abbiamo parlato di più" />
+          <SectionHeader eyebrow="temi demo" title="Esempio di temi ricorrenti" />
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topThemes} layout="vertical" margin={{ left: 10, right: 16, top: 0, bottom: 0 }}>
@@ -399,7 +399,7 @@ function OverviewTab() {
               <li key={s.label}>
                 <div className="flex items-center justify-between text-sm mb-1.5">
                   <span className="text-foreground">{s.label}</span>
-                  <span className="text-muted-foreground text-xs">{s.value}/100</span>
+                  <span className="text-muted-foreground text-xs">demo</span>
                 </div>
                 <Progress value={s.value} />
               </li>
@@ -413,7 +413,7 @@ function OverviewTab() {
               <li key={s.label}>
                 <div className="flex items-center justify-between text-sm mb-1.5">
                   <span className="text-foreground">{s.label}</span>
-                  <span className="text-muted-foreground text-xs">{s.value}/100</span>
+                  <span className="text-muted-foreground text-xs">demo</span>
                 </div>
                 <Progress value={s.value} tone="dust" />
               </li>
@@ -427,8 +427,8 @@ function OverviewTab() {
 
       <section className="grid md:grid-cols-2 gap-6">
         {[
-          { label: "Sintesi settimanale", date: "8 — 14 Giugno", body: "Settimana più morbida della precedente. Le serate restano un momento da proteggere. Tre conversazioni hanno toccato il tema dei confini sul lavoro." },
-          { label: "Sintesi mensile", date: "Maggio", body: "Maggio è stato un mese di costruzione: più routine, meno reattività. Compare per la prima volta in modo netto il bisogno di tempo non pianificato." },
+          { label: "Sintesi demo settimanale", date: "periodo demo", body: "Esempio di sintesi narrativa: qui comparirà una lettura basata sui pensieri reali salvati." },
+          { label: "Sintesi demo mensile", date: "periodo demo", body: "Esempio di riepilogo esteso: in futuro distinguerà temi, domande vive e continuità nel tempo." },
         ].map((s) => (
           <Card key={s.label} className="p-5 md:p-6">
             <div className="flex items-center justify-between mb-2">
@@ -449,8 +449,8 @@ function PatternsTab() {
     <div className="space-y-10">
       <SectionHeader
         eyebrow="pattern"
-        title="Schemi che si ripetono nella tua storia"
-        sub="Sono ipotesi di lettura, costruite sulle tue parole. Restano aperte: tu sei l'unica voce che può confermarle o smentirle."
+        title="Esempi di schemi che potrebbero emergere"
+        sub="Dati demo. In futuro saranno ipotesi di lettura costruite sulle tue parole e sempre modificabili."
       />
 
       <section className="grid md:grid-cols-2 gap-6">
@@ -467,7 +467,7 @@ function PatternsTab() {
         </Card>
 
         <Card className="p-5 md:p-6">
-          <div className="flex items-center gap-2 mb-4"><Brain className="size-4 text-primary" /><h3 className="font-display text-xl">Distorsioni cognitive comuni</h3></div>
+          <div className="flex items-center gap-2 mb-4"><Brain className="size-4 text-primary" /><h3 className="font-display text-xl">Ricorrenze di pensiero demo</h3></div>
           <ul className="space-y-4">
             {distortions.map((d) => (
               <li key={d.name} className="rounded-xl bg-muted/50 border border-border/60 p-4">
@@ -479,7 +479,7 @@ function PatternsTab() {
               </li>
             ))}
           </ul>
-          <p className="text-[11px] text-muted-foreground mt-4 italic">Concetti educativi tratti da letteratura psicologica, non strumenti diagnostici.</p>
+          <p className="text-[11px] text-muted-foreground mt-4 italic">Concetti educativi mostrati come esempio, non letture della persona.</p>
         </Card>
       </section>
 
@@ -539,7 +539,7 @@ function AwarenessTab() {
       <SectionHeader
         eyebrow="mappa di sé"
         title="Aree di consapevolezza"
-        sub="Una lettura qualitativa di otto dimensioni che emergono dalle tue interazioni. I valori indicano una tendenza percepita, non una misura clinica."
+        sub="Demo di visualizzazione qualitativa. I valori sono segnaposto e non misurano la persona."
       />
 
       <Card className="p-5 md:p-6">
@@ -572,7 +572,7 @@ function AwarenessTab() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-3 mb-2">
                     <div className="font-medium truncate">{a.key}</div>
-                    <span className="text-xs text-muted-foreground shrink-0">{a.value}/100</span>
+                    <span className="text-xs text-muted-foreground shrink-0">demo</span>
                   </div>
                   <Progress value={a.value} />
                   <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{a.desc}</p>
@@ -627,7 +627,7 @@ function GrowthTab() {
               <li key={s.name}>
                 <div className="flex items-center justify-between text-sm mb-1.5">
                   <span>{s.name}</span>
-                  <span className="text-xs text-muted-foreground">{s.level}%</span>
+                  <span className="text-xs text-muted-foreground">demo</span>
                 </div>
                 <Progress value={s.level} />
               </li>
@@ -655,19 +655,19 @@ function GrowthTab() {
 
 // ——— REPORTS ———
 function ReportsTab() {
-  const [mode, setMode] = useState<"personale" | "professionista">("personale");
+  const [mode, setMode] = useState<"personale" | "strutturato">("personale");
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
           <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-1.5">report</div>
           <h2 className="font-display text-2xl md:text-3xl">
-            {mode === "personale" ? "Report di auto-riflessione" : "Report di osservazione personale"}
+            {mode === "personale" ? "Report di auto-riflessione" : "Report strutturato demo"}
           </h2>
           <p className="text-sm text-muted-foreground mt-2 max-w-2xl leading-relaxed">
             {mode === "personale"
-              ? "Una sintesi narrativa, pensata per essere letta con calma — da sola o, se lo desideri, con il tuo terapeuta."
-              : "Una sintesi strutturata del materiale raccolto, pensata per essere condivisa con un professionista della salute mentale."}
+              ? "Demo di sintesi narrativa, pensata per essere letta con calma."
+              : "Demo di sintesi strutturata del materiale raccolto, pensata come formato esportabile futuro."}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -682,19 +682,19 @@ function ReportsTab() {
             <Heart className="size-4" /> Diario narrativo
           </button>
           <button
-            onClick={() => setMode("professionista")}
+          onClick={() => setMode("strutturato")}
             className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm transition border ${
-              mode === "professionista"
+              mode === "strutturato"
                 ? "bg-primary text-primary-foreground border-transparent shadow-soft"
                 : "bg-card border-border/60 hover:bg-muted"
             }`}
           >
-            <FileText className="size-4" /> Report professionista
+            <FileText className="size-4" /> Report strutturato
           </button>
           <button
             onClick={() => typeof window !== "undefined" && window.print()}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-card border border-border/60 text-sm hover:bg-muted transition"
-            title={mode === "personale" ? "Scarica il Diario narrativo in PDF" : "Scarica il Report professionista in PDF"}
+            title={mode === "personale" ? "Scarica il Diario narrativo in PDF" : "Scarica il Report strutturato in PDF"}
           >
             <Download className="size-4" /> Scarica {mode === "personale" ? "diario" : "report"} (PDF)
           </button>
@@ -702,7 +702,7 @@ function ReportsTab() {
       </div>
 
       <p className="text-xs text-muted-foreground -mt-2 max-w-2xl leading-relaxed">
-        Entrambi i documenti sono liberamente scaricabili. Il <span className="text-foreground/80">Diario narrativo</span> è pensato per te; il <span className="text-foreground/80">Report professionista</span> è pensato per essere condiviso, se lo desideri, con un professionista di tua fiducia.
+        Questi documenti sono esempi dimostrativi. Il <span className="text-foreground/80">Diario narrativo</span> è pensato per te; il <span className="text-foreground/80">Report strutturato</span> mostra un possibile formato esportabile futuro.
       </p>
 
       {mode === "personale" ? <PersonalReport /> : <ProfessionalReport />}
@@ -717,9 +717,9 @@ function PersonalReport() {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Hu-Mind · report personale</div>
-            <h3 className="font-display text-2xl md:text-3xl mt-1">Riflessioni — Giugno 2026</h3>
+            <h3 className="font-display text-2xl md:text-3xl mt-1">Riflessioni — demo</h3>
           </div>
-          <Pill><Calendar className="size-3" /> generato l'11 giugno</Pill>
+          <Pill><Calendar className="size-3" /> contenuto demo</Pill>
         </div>
       </header>
 
@@ -792,7 +792,7 @@ function PersonalReport() {
           </div>
         </ReportSection>
 
-        <ProDisclaimer text="Questo documento è uno strumento di auto-riflessione. Non costituisce una diagnosi, una valutazione clinica né un consiglio medico. Per bisogni di salute, rivolgiti a un professionista qualificato." />
+        <ProDisclaimer text="Questo documento demo è uno strumento di auto-riflessione. Non è un giudizio sulla persona, una misurazione psicologica o un consiglio medico." />
       </div>
     </article>
   );
@@ -803,21 +803,21 @@ const proSources = [
   {
     name: "Conversazioni con Hu-Mind",
     weight: 42,
-    count: "118 scambi nel periodo",
-    desc: "Dialoghi testuali a tema libero, prevalentemente serali. Forniscono il materiale narrativo più ampio.",
+    count: "demo",
+    desc: "Dialoghi testuali a tema libero. In futuro forniranno il materiale narrativo più ampio.",
     quote: "«Mi accorgo che mi giudico prima ancora di provare a fare la cosa.»",
   },
   {
     name: "Diario personale",
     weight: 28,
-    count: "34 voci",
+    count: "demo",
     desc: "Annotazioni brevi, scritte in autonomia, spesso al mattino. Materiale meno strutturato ma più immediato.",
     quote: "«Oggi ho dormito meglio. Forse contava davvero spegnere prima.»",
   },
   {
     name: "Domande e questionari riflessivi",
     weight: 18,
-    count: "9 questionari completati",
+    count: "demo",
     desc: "Risposte a domande aperte proposte dall'app. Utili per osservare costanti tra periodi diversi.",
     quote: "«Quando dico di sì controvoglia, mi sento più stanca il giorno dopo.»",
   },
@@ -825,7 +825,7 @@ const proSources = [
     name: "Comportamenti e tracce d'uso",
     weight: 12,
     count: "interazioni e ritmi d'uso",
-    desc: "Frequenza, orari e durata delle sessioni. Considerati solo come contesto, non come indicatori clinici.",
+    desc: "Frequenza, orari e durata delle sessioni. Futuro contesto d'uso, non indicatore sulla persona.",
     quote: null,
   },
 ];
@@ -869,7 +869,7 @@ const proFrameworks = [
   { name: "DBT", focus: "Regolazione e tolleranza", themes: ["Tolleranza al disagio", "Efficacia interpersonale"], evidence: "Evidenza moderata", note: "Le osservazioni suggeriscono una progressiva capacità di stare con stati emotivi intensi senza azioni reattive immediate." },
   { name: "ACT", focus: "Flessibilità psicologica", themes: ["Contatto con i valori", "Defusione cognitiva"], evidence: "Evidenza moderata", note: "Sembra emergere un riferimento più stabile ad alcuni valori personali nelle decisioni quotidiane." },
   { name: "ADHD-informed", focus: "Funzioni esecutive", themes: ["Avvio del compito", "Percezione del tempo"], evidence: "Evidenza preliminare", note: "Si osservano episodi ricorrenti di difficoltà di avvio non riconducibili a mancanza di motivazione." },
-  { name: "Autism-informed", focus: "Funzionamento sensoriale e sociale", themes: ["Carico sensoriale", "Energia sociale", "Masking", "Routine rigeneranti"], evidence: "Evidenza preliminare", note: "Emergono pattern compatibili con una sensibilità sensoriale elevata e un alto costo energetico nella navigazione sociale, accompagnati da riferimenti a strategie di adattamento (masking) in contesti formali. Si segnala la presenza di interessi profondi descritti come fonte stabile di rigenerazione. Non si tratta di indicatori diagnostici, ma di descrittori funzionali utili al dialogo clinico." },
+  { name: "Autism-informed", focus: "Funzionamento sensoriale e sociale", themes: ["Carico sensoriale", "Energia sociale", "Masking", "Routine rigeneranti"], evidence: "Demo", note: "Esempio di come potrebbero essere descritti pattern funzionali senza trasformarli in etichette o conclusioni personali." },
   { name: "Attaccamento e Relazioni", focus: "Modelli relazionali", themes: ["Ricerca di prossimità", "Gestione della distanza"], evidence: "Evidenza moderata", note: "È stato registrato con maggiore continuità un lavoro di negoziazione nei legami significativi." },
   { name: "Trauma-informed", focus: "Sicurezza percepita", themes: ["Evitamento mirato", "Comportamenti di protezione"], evidence: "Evidenza preliminare", note: "Le osservazioni vengono presentate come ipotesi e non come indicatori clinici." },
 ];
@@ -889,9 +889,9 @@ const proDreamThemes = [
 ];
 
 const proTimeline = [
-  { label: "Primo periodo (marzo-aprile)", text: "Temi predominanti: sovraccarico, auto-critica, difficoltà nel riposo. Tono complessivo più valutativo." },
-  { label: "Periodo intermedio (maggio)", text: "Comparsa di pratiche di auto-osservazione e prime sperimentazioni sui confini. Maggiore granularità emotiva." },
-  { label: "Periodo recente (giugno)", text: "Consolidamento di rituali quotidiani, riduzione dell'auto-critica anticipatoria, emergere di domande sulla qualità del riposo e sull'energia." },
+  { label: "Primo periodo demo", text: "Temi predominanti: sovraccarico, auto-critica, difficoltà nel riposo. Tono complessivo più valutativo." },
+  { label: "Periodo intermedio demo", text: "Comparsa di pratiche di auto-osservazione e prime sperimentazioni sui confini. Maggiore granularità emotiva." },
+  { label: "Periodo recente demo", text: "Consolidamento di rituali quotidiani, riduzione dell'auto-critica anticipatoria, emergere di domande sulla qualità del riposo e sull'energia." },
 ];
 
 const proLiveQuestions = [
@@ -911,21 +911,21 @@ function ProfessionalReport() {
   return (
     <article className="rounded-3xl bg-card border border-border/60 shadow-soft overflow-hidden">
       <header className="px-6 md:px-12 py-10 md:py-14 bg-gradient-to-b from-secondary/60 via-card to-card border-b border-border/60">
-        <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Hu-Mind · report professionista</div>
-        <h3 className="font-display text-3xl md:text-4xl mt-3 leading-tight">Report di osservazione personale</h3>
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Hu-Mind · report strutturato demo</div>
+        <h3 className="font-display text-3xl md:text-4xl mt-3 leading-tight">Report di osservazione personale demo</h3>
         <p className="text-sm md:text-base text-muted-foreground mt-3 max-w-2xl leading-relaxed">
-          Sintesi strutturata delle conversazioni, riflessioni e materiali raccolti.
+          Esempio di formato esportabile. Non contiene ancora dati reali calcolati da Hu-Mind.
         </p>
         <div className="mt-6 grid sm:grid-cols-3 gap-4 text-sm">
-          <CoverField label="Periodo osservato" value="1 marzo — 11 giugno 2026" />
-          <CoverField label="Data di generazione" value="11 giugno 2026" />
-          <CoverField label="Versione" value="1.0 · sintesi estesa" />
+          <CoverField label="Periodo" value="demo" />
+          <CoverField label="Generazione" value="demo" />
+          <CoverField label="Versione" value="formato demo" />
         </div>
         <div className="mt-6 rounded-2xl border border-border/60 bg-card/60 p-4 md:p-5">
           <div className="flex gap-3">
             <Shield className="size-4 text-primary mt-0.5 shrink-0" />
             <p className="text-xs md:text-sm text-foreground/75 leading-relaxed">
-              Il presente documento non costituisce una diagnosi, una valutazione clinica né un'indicazione terapeutica. Le osservazioni riportate derivano dal materiale raccolto in autonomia dalla persona e sono presentate come ipotesi descrittive a supporto del lavoro del professionista.
+              Questo documento è dimostrativo. Le osservazioni sono esempi di sintesi narrativa e non vanno lette come valutazioni, classificazioni o indicazioni sulla persona.
             </p>
           </div>
         </div>
@@ -934,7 +934,7 @@ function ProfessionalReport() {
       <div className="px-6 md:px-12 py-10 md:py-12 space-y-12">
         <ProSection title="Fonti del materiale considerato" index="01">
           <p className="mb-5">
-            Le osservazioni di questo report derivano esclusivamente dal materiale prodotto in autonomia dalla persona, raccolto in quattro flussi distinti. Le percentuali indicano il peso relativo di ciascuna fonte all'interno della sintesi, non un giudizio sulla loro qualità. Nessun dato esterno, clinico o sanitario è stato utilizzato.
+            Questa sezione usa contenuti demo per mostrare il formato. In futuro indicherà fonti reali collegate ai pensieri salvati e alla memoria narrativa.
           </p>
           <div className="space-y-3">
             {proSources.map((s) => (
@@ -947,7 +947,7 @@ function ProfessionalReport() {
                   <div className="h-1.5 flex-1 rounded-full bg-secondary overflow-hidden">
                     <div className="h-full bg-primary/70 rounded-full" style={{ width: `${s.weight}%` }} />
                   </div>
-                  <div className="text-xs tabular-nums text-muted-foreground w-10 text-right">{s.weight}%</div>
+                  <div className="text-xs tabular-nums text-muted-foreground w-10 text-right">demo</div>
                 </div>
                 <p className="mt-3 text-sm text-foreground/80 leading-relaxed">{s.desc}</p>
                 {s.quote && (
@@ -957,7 +957,7 @@ function ProfessionalReport() {
             ))}
           </div>
           <p className="mt-5 text-xs text-muted-foreground leading-relaxed">
-            Le citazioni riportate sono estratti testuali scelti come esempio rappresentativo della fonte, non come prova clinica. Possono essere escluse dall'analisi su richiesta della persona.
+            Le citazioni riportate sono esempi dimostrativi del formato.
           </p>
         </ProSection>
 
@@ -1045,8 +1045,8 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProSection title="Framework clinici utilizzati" index="08">
-          <p className="text-sm text-muted-foreground mb-4">I framework sono utilizzati come lenti interpretative del materiale raccolto, non come classificazioni della persona.</p>
+        <ProSection title="Lenti teoriche utilizzate" index="08">
+          <p className="text-sm text-muted-foreground mb-4">Le lenti sono esempi interpretativi del materiale raccolto, non classificazioni della persona.</p>
           <div className="space-y-3">
             {proFrameworks.map((f) => (
               <div key={f.name} className="rounded-2xl border border-border/60 p-5">
@@ -1081,7 +1081,7 @@ function ProfessionalReport() {
 
         <ProSection title="Funzionamento sensoriale e sociale" index="10">
           <p className="text-sm text-muted-foreground mb-4">
-            Lettura non diagnostica ispirata alla cornice <span className="text-foreground/80">Autism-informed</span>. Descrive pattern di funzionamento (carico sensoriale, energia sociale, masking, routine rigeneranti) come descrittori utili al dialogo clinico, non come indicatori di disturbo.
+            Esempio demo ispirato alla cornice <span className="text-foreground/80">Autism-informed</span>. Descrive pattern funzionali come materiale narrativo, non come indicatori o etichette.
           </p>
           <div className="space-y-3">
             {proAutismPatterns.map((a) => (
@@ -1095,7 +1095,7 @@ function ProfessionalReport() {
 
         <ProSection title="Temi onirici ricorrenti" index="11">
           <p className="text-sm text-muted-foreground mb-4">
-            Sintesi delle immagini oniriche più ricorrenti annotate dalla persona, messe in relazione descrittiva con gli eventi e gli stati riferiti durante il giorno. Le correlazioni sono presentate come osservazioni, non come interpretazioni cliniche.
+            Sintesi demo di immagini oniriche annotate dalla persona, messe in relazione descrittiva con eventi e stati riferiti durante il giorno.
           </p>
           <div className="space-y-3">
             {proDreamThemes.map((d) => (
@@ -1140,11 +1140,11 @@ function ProfessionalReport() {
           </p>
           <div className="space-y-3">
             {[
-              { name: "CBT — Terapia Cognitivo Comportamentale", desc: "Lettura del legame pensieri-emozioni-comportamenti e delle distorsioni cognitive.", authors: "A. T. Beck, A. Ellis, J. S. Beck", role: "Riconoscimento di pattern di pensiero ricorrenti.", usage: "Utilizzo elevato" },
-              { name: "DBT — Dialectical Behavior Therapy", desc: "Abilità di regolazione emotiva, tolleranza del disagio, efficacia interpersonale.", authors: "M. M. Linehan", role: "Lettura delle oscillazioni emotive e delle dinamiche relazionali.", usage: "Utilizzo moderato" },
-              { name: "ACT — Acceptance and Commitment Therapy", desc: "Flessibilità psicologica, contatto con valori e azione impegnata.", authors: "S. C. Hayes, K. Wilson, K. Strosahl", role: "Lettura della coerenza tra valori dichiarati e scelte quotidiane.", usage: "Utilizzo moderato" },
+              { name: "Lente cognitivo-comportamentale", desc: "Lettura del legame pensieri-emozioni-comportamenti e delle ricorrenze narrative.", authors: "A. T. Beck, A. Ellis, J. S. Beck", role: "Riconoscimento di pattern di pensiero ricorrenti.", usage: "Demo" },
+              { name: "Lente DBT", desc: "Abilità di osservazione emotiva, pausa e scelta relazionale.", authors: "M. M. Linehan", role: "Lettura delle oscillazioni emotive e delle dinamiche relazionali.", usage: "Demo" },
+              { name: "Lente ACT", desc: "Flessibilità psicologica, contatto con valori e azione impegnata.", authors: "S. C. Hayes, K. Wilson, K. Strosahl", role: "Lettura della coerenza tra valori dichiarati e scelte quotidiane.", usage: "Demo" },
               { name: "Cornice ADHD-informata", desc: "Funzioni esecutive, percezione del tempo, regolazione dell'attenzione.", authors: "R. Barkley, T. Brown", role: "Descrizione educativa di pattern di avvio del compito e iperfocus.", usage: "Utilizzo preliminare" },
-              { name: "Cornice Autism-informata", desc: "Profili sensoriali, energia sociale, masking, interessi profondi e routine rigeneranti, letti in chiave funzionale (non diagnostica).", authors: "D. Murray, F. Happé, S. Kapp, C. Pellicano", role: "Lettura del carico sensoriale, della social battery e del costo dell'adattamento, come descrittori utili al dialogo clinico.", usage: "Utilizzo preliminare" },
+              { name: "Cornice Autism-informata", desc: "Profili sensoriali, energia sociale, masking, interessi profondi e routine rigeneranti, letti come descrittori funzionali.", authors: "D. Murray, F. Happé, S. Kapp, C. Pellicano", role: "Lettura del carico sensoriale e del costo dell'adattamento come materiale narrativo.", usage: "Demo" },
               { name: "Cornice Trauma-informata", desc: "Sicurezza percepita, finestra di tolleranza, risposte di sopravvivenza.", authors: "B. van der Kolk, S. Porges", role: "Modulazione del tono delle osservazioni.", usage: "Utilizzo preliminare" },
               { name: "Teoria dell'Attaccamento", desc: "Modelli operativi interni e dinamiche relazionali.", authors: "J. Bowlby, M. Ainsworth", role: "Lettura di dinamiche di prossimità e distanza nei legami.", usage: "Utilizzo moderato" },
               { name: "Regolazione Emotiva (Gross)", desc: "Processi di influenza su quali emozioni si provano e come si esprimono.", authors: "J. J. Gross, L. F. Barrett", role: "Osservazione della granularità emotiva e delle strategie ricorrenti.", usage: "Utilizzo elevato" },
@@ -1172,7 +1172,7 @@ function ProfessionalReport() {
           </div>
         </ProSection>
 
-        <ProDisclaimer text="Le osservazioni riportate non costituiscono una diagnosi né una valutazione clinica. Il documento è pensato come mappa ragionata del materiale raccolto, a supporto del dialogo con il professionista. L'interpretazione clinica resta di esclusiva competenza dello specialista." />
+        <ProDisclaimer text="Le osservazioni riportate sono contenuti demo. Il documento mostra una possibile mappa ragionata del materiale raccolto, non una misura o una classificazione della persona." />
       </div>
     </article>
   );

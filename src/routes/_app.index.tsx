@@ -20,12 +20,17 @@ const livingQuestion = {
 function HomePage() {
   const { thoughts } = useThoughts();
   const recent = thoughts.slice(0, 3);
+  const today = new Intl.DateTimeFormat("it-IT", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  }).format(new Date());
 
   return (
     <div className="p-6 md:p-12 max-w-4xl mx-auto pb-32">
       {/* Hero */}
       <section className="pt-6 md:pt-10 pb-10 md:pb-16 text-center">
-        <div className="text-xs md:text-sm text-muted-foreground mb-5 tracking-wide">Giovedì, 11 Giugno</div>
+        <div className="text-xs md:text-sm text-muted-foreground mb-5 tracking-wide capitalize">{today}</div>
         <h1 className="font-display text-3xl md:text-5xl leading-[1.1] text-foreground max-w-2xl mx-auto">
           Cosa ti passa per la testa oggi?
         </h1>

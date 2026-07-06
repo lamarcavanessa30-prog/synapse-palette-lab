@@ -21,7 +21,7 @@ function ProfiloPage() {
           </div>
           <div className="flex-1">
             <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Profilo</div>
-            <h1 className="font-display text-4xl mt-1">Elena Marchetti</h1>
+            <h1 className="font-display text-4xl mt-1">Profilo personale</h1>
             <p className="text-muted-foreground mt-2 max-w-md leading-relaxed">
               "Raccolgo pensieri che mi aiutano a capire chi sono, con calma e continuità."
             </p>
@@ -37,7 +37,7 @@ function ProfiloPage() {
         {[
           { k: String(countUniqueDays(thoughts.map((thought) => thought.createdAt))), l: "giorni con pensieri" },
           { k: String(thoughts.length), l: "pensieri raccolti" },
-          { k: "12", l: "fili intrecciati" },
+          { k: "Demo", l: "fili intrecciati" },
         ].map((s) => (
           <div key={s.l} className="rounded-2xl bg-card border border-border/60 p-5 text-center shadow-soft">
             <div className="font-display text-3xl text-primary">{s.k}</div>
@@ -53,7 +53,7 @@ function ProfiloPage() {
             <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-1">memoria condivisa</div>
             <h2 className="font-display text-2xl md:text-3xl">Cose importanti da sapere di me</h2>
             <p className="text-sm text-muted-foreground mt-2 max-w-xl">
-              Quello che vuoi che Hu-Mind tenga a mente quando rifletti. Cambia, cresce, si aggiorna con te.
+              Sezione dimostrativa: in futuro conterrà ciò che scegli di far ricordare a Hu-Mind.
             </p>
           </div>
           <button className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-card border border-border/60 text-xs hover:bg-muted transition">
@@ -68,7 +68,7 @@ function ProfiloPage() {
             { icon: BookMarked, label: "Contesto", title: "Periodi di stress", body: "Nei periodi intensi tendo a perdere il ritmo. Mi aiuta ritrovare continuità con piccoli gesti." },
             { icon: BookMarked, label: "La mia storia", title: "Sono cresciuta tra due lingue", body: "Italiano e tedesco. Spesso il modo in cui penso cambia con la lingua." },
             { icon: MessageCircle, label: "Come preferisco parlare", title: "Senza consigli non richiesti", body: "Mi aiuta di più quando fai domande, non quando proponi soluzioni." },
-            { icon: MessageCircle, label: "Come preferisco parlare", title: "Tono morbido, mai clinico", body: "Le etichette psicologiche mi mettono a disagio. Preferisco parole umane." },
+            { icon: MessageCircle, label: "Come preferisco parlare", title: "Tono morbido, mai etichettante", body: "Mi aiutano parole umane e concrete, non formule rigide." },
           ].map((item) => (
             <article key={item.title} className="group rounded-2xl bg-card border border-border/60 p-5 hover:shadow-soft hover:border-primary/40 transition">
               <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-muted-foreground mb-3">
@@ -91,9 +91,9 @@ function ProfiloPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <div className="font-medium">Rituale serale</div>
-              <div className="text-xs text-muted-foreground mt-1">7 minuti, ogni sera alle 22:00</div>
+              <div className="text-xs text-muted-foreground mt-1">Esempio dimostrativo, non ancora collegato ai tuoi dati</div>
             </div>
-            <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">attivo</span>
+            <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">demo</span>
           </div>
           <div className="flex gap-1.5">
             {Array.from({ length: 30 }).map((_, i) => {

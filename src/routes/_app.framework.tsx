@@ -38,7 +38,7 @@ type Pattern = {
   id: string;
   name: string;
   description: string;
-  frequency: number; // 0-100
+  frequency: number; // Demo-only visual intensity, 0-100.
   examples: string[];
   trend: Trend;
   evolution: string;
@@ -58,15 +58,15 @@ type Domain = {
   patterns: Pattern[];
 };
 
-// ——— Mock content ———
+// ——— Demo content ———
 
 const DOMAINS: Domain[] = [
   {
     id: "cbt",
-    label: "Terapia Cognitivo-Comportamentale",
+    label: "Lente cognitivo-comportamentale",
     acronym: "CBT",
     description:
-      "Osserva come pensieri, emozioni e comportamenti si influenzano. Aiuta a riconoscere distorsioni cognitive ricorrenti.",
+      "Osserva come pensieri, emozioni e comportamenti si influenzano. Aiuta a nominare ricorrenze nel racconto personale.",
     icon: Brain,
     accent: "from-primary/15 to-primary/5",
     patterns: [
@@ -81,7 +81,7 @@ const DOMAINS: Domain[] = [
           "“O sono produttiva, o sto sprecando la giornata.”",
         ],
         trend: "down",
-        evolution: "In diminuzione nelle ultime 4 settimane (-18%).",
+        evolution: "Esempio demo: andamento illustrativo, non calcolato sui dati reali.",
         confidence: "high",
         evidenceCount: 27,
         updatedAt: "2 giorni fa",
@@ -340,7 +340,7 @@ const DOMAINS: Domain[] = [
     label: "Cornice ADHD-informata",
     acronym: "ADHD",
     description:
-      "Osservazioni educative su attenzione, funzioni esecutive ed energia, senza valore diagnostico.",
+      "Osservazioni educative su attenzione, funzioni esecutive ed energia, senza valore conclusivo sulla persona.",
     icon: Zap,
     accent: "from-dust/15 to-secondary/30",
     patterns: [
@@ -711,9 +711,9 @@ const DOMAINS: Domain[] = [
 // ——— UI helpers ———
 
 const CONFIDENCE_META: Record<Confidence, { label: string; dot: string; bar: string; pct: number }> = {
-  low: { label: "Confidenza bassa", dot: "bg-muted-foreground/50", bar: "bg-muted-foreground/40", pct: 33 },
-  moderate: { label: "Confidenza moderata", dot: "bg-dust", bar: "bg-dust", pct: 66 },
-  high: { label: "Confidenza alta", dot: "bg-primary", bar: "bg-primary", pct: 100 },
+  low: { label: "Demo bassa", dot: "bg-muted-foreground/50", bar: "bg-muted-foreground/40", pct: 33 },
+  moderate: { label: "Demo media", dot: "bg-dust", bar: "bg-dust", pct: 66 },
+  high: { label: "Demo alta", dot: "bg-primary", bar: "bg-primary", pct: 100 },
 };
 
 const SOURCE_META: Record<Pattern["sources"][number]["type"], { label: string; icon: typeof MessageCircle }> = {
@@ -774,6 +774,9 @@ function FrameworkPage() {
         <p className="text-foreground/70 max-w-2xl leading-relaxed">
           Hu-Mind organizza le osservazioni come lenti di lettura per la riflessione personale.
           Ogni pattern è un'ipotesi narrativa, mai un'etichetta.
+        </p>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Dati demo: frequenze, esempi e date in questa pagina sono contenuti illustrativi.
         </p>
 
         {/* Safety strip */}
@@ -863,8 +866,8 @@ function FrameworkPage() {
                 <div className="grid md:grid-cols-[1fr_auto] gap-4 items-center">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[11px] uppercase tracking-wider text-muted-foreground">Frequenza osservata</span>
-                      <span className="text-xs text-foreground/70 font-medium">{p.frequency}%</span>
+                      <span className="text-[11px] uppercase tracking-wider text-muted-foreground">Intensità demo</span>
+                      <span className="text-xs text-foreground/70 font-medium">demo</span>
                     </div>
                     <FrequencyBar value={p.frequency} />
                   </div>
@@ -877,7 +880,7 @@ function FrameworkPage() {
                   {/* Evolution */}
                   <div>
                     <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">
-                      Evoluzione nel tempo
+                      Esempio demo
                     </div>
                     <p className="text-sm text-foreground/80 leading-relaxed">{p.evolution}</p>
                   </div>
@@ -886,7 +889,7 @@ function FrameworkPage() {
                   {p.examples.length > 0 && (
                     <div>
                       <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-2">
-                        Esempi rilevati
+                        Esempi illustrativi
                       </div>
                       <ul className="space-y-2">
                         {p.examples.map((ex, i) => (
@@ -906,7 +909,7 @@ function FrameworkPage() {
                     <div className="flex items-center gap-2 mb-3">
                       <Info className="size-3.5 text-primary" />
                       <span className="text-xs font-medium text-foreground">
-                        Cosa ha informato questa osservazione?
+                        Fonti demo mostrate come esempio
                       </span>
                     </div>
                     <ul className="space-y-2">
@@ -926,9 +929,9 @@ function FrameworkPage() {
                   {/* Meta */}
                   <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-muted-foreground">
                     <span>
-                      <span className="text-foreground/70 font-medium">{p.evidenceCount}</span> elementi a supporto
+                      <span className="text-foreground/70 font-medium">{p.evidenceCount}</span> elementi demo
                     </span>
-                    <span>Ultimo aggiornamento: <span className="text-foreground/70">{p.updatedAt}</span></span>
+                    <span>Aggiornamento demo: <span className="text-foreground/70">{p.updatedAt}</span></span>
                   </div>
 
                   {/* Controls */}

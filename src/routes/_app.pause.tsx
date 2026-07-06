@@ -458,7 +458,7 @@ function PracticeReader({
 }
 
 // ---------- Contextual suggestion engine ----------
-// Lightweight, fully client-side scoring across recent messages.
+// Lightweight, fully client-side matching across recent messages.
 // Combines: thematic triggers, sentiment cues (intensity / negation /
 // help-seeking) and recency weighting. Returns null when confidence is low.
 

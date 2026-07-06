@@ -60,6 +60,7 @@ function readStoredThoughts() {
   if (typeof window === "undefined") return [];
 
   try {
+    // TODO: Replace browser storage with a repository backed by authenticated server persistence.
     const raw = window.localStorage.getItem(THOUGHTS_STORAGE_KEY);
     if (!raw) return [];
 

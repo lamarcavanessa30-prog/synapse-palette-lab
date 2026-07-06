@@ -57,8 +57,8 @@ const DEPTHS: Depth[] = [
     description: "Più curiosità, ricerca di significati, collegamenti tra eventi, Domande Vive più frequenti.",
     guide: "Hu-Mind esplora temi ricorrenti e propone collegamenti tra esperienze diverse.",
     reply:
-      "C'è qualcosa che torna, qui. Mi ricorda una cosa che mi avevi raccontato a maggio, sul bisogno di rallentare prima che le cose ti chiedano qualcosa. Vivi questi due momenti come parte della stessa domanda?",
-    refs: ["Letture lente", "Maggio · 02"],
+      "C'è qualcosa che torna, qui. Potrebbe collegarsi a un filo che hai già nominato: il bisogno di rallentare prima che le cose ti chiedano qualcosa. Vivi questi due momenti come parte della stessa domanda?",
+    refs: ["Memoria recente", "Filo ricorrente"],
   },
   {
     id: "autoanalisi",
@@ -68,12 +68,12 @@ const DEPTHS: Depth[] = [
     tagline: "Guardiamo i pattern.",
     description: "Analisi di pattern longitudinali e collegamenti tra periodi diversi. Uso più intenso dei framework.",
     guide:
-      "Hu-Mind osserva ricorrenze narrative e pattern longitudinali. Mai diagnosi, mai etichette.",
+      "Hu-Mind osserva ricorrenze narrative e pattern longitudinali. Mai etichette, mai conclusioni su chi sei.",
     advanced: true,
     warning: "Questa modalità può portare a riflessioni profonde e a domande impegnative.",
     reply:
-      "Provo a tenere insieme alcuni fili. In più periodi — gennaio, aprile, queste settimane — torna un movimento simile: ti carichi di compiti quando ti senti incerta sul valore di ciò che fai. Da un punto di vista ACT, sembrerebbe un tentativo di restare ancorata a qualcosa di tangibile. Risuona, oppure ti sembra che stia forzando il collegamento?",
-    refs: ["Pattern · sovraccarico", "ACT · valori"],
+      "Provo a tenere insieme alcuni fili. Nelle cose che scrivi sembra tornare un movimento simile: ti carichi di compiti quando vuoi rendere tangibile il valore di ciò che fai. Risuona, oppure ti sembra che stia forzando il collegamento?",
+    refs: ["Pattern narrativo", "Valori personali"],
   },
   {
     id: "specchio",
@@ -373,7 +373,7 @@ function ChatPage() {
           </button>
         </div>
         <div className="max-w-3xl mx-auto mt-3 text-[11px] text-muted-foreground text-center">
-          Nessuna fretta. Scrivi come parleresti. · Hu-Mind non fornisce diagnosi né valutazioni cliniche.
+          Nessuna fretta. Scrivi come parleresti. · Hu-Mind offre memoria narrativa, non giudizi sulla persona.
         </div>
       </div>
 

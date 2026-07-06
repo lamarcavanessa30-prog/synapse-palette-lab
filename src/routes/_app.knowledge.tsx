@@ -38,11 +38,11 @@ type Framework = {
 const FRAMEWORKS: Framework[] = [
   {
     id: "cbt",
-    name: "Terapia Cognitivo Comportamentale",
+    name: "Lente cognitivo-comportamentale",
     acronym: "CBT",
     icon: Brain,
     description:
-      "Modello che osserva come pensieri, emozioni e comportamenti si influenzano reciprocamente, riconoscendo distorsioni cognitive ricorrenti.",
+      "Modello che osserva come pensieri, emozioni e comportamenti si influenzano reciprocamente, riconoscendo ricorrenze nel racconto personale.",
     authors: ["Aaron T. Beck", "Albert Ellis", "Judith S. Beck"],
     concepts: [
       "Triangolo cognitivo (pensieri-emozioni-comportamenti)",
@@ -51,7 +51,7 @@ const FRAMEWORKS: Framework[] = [
       "Esperimenti comportamentali",
     ],
     usage:
-      "Hu-Mind utilizza la CBT come lente per riconoscere pattern di pensiero ricorrenti (es. pensiero tutto-o-nulla, catastrofizzazione) emersi nelle conversazioni.",
+      "Hu-Mind può usare questa cornice come lente descrittiva per nominare pattern di pensiero ricorrenti emersi nei testi.",
     limits:
       "Privilegia un livello cognitivo-comportamentale. Può risultare meno adatto quando emergono temi profondi di trauma, attaccamento o sofferenza relazionale prolungata.",
     sources: [
@@ -65,7 +65,7 @@ const FRAMEWORKS: Framework[] = [
     acronym: "DBT",
     icon: Heart,
     description:
-      "Approccio che integra accettazione e cambiamento, sviluppando abilità per regolare emozioni intense e gestire le relazioni.",
+      "Cornice che integra accettazione e cambiamento, utile per descrivere abilità di osservazione, pausa e scelta intenzionale.",
     authors: ["Marsha M. Linehan"],
     concepts: [
       "Mindfulness",
@@ -74,9 +74,9 @@ const FRAMEWORKS: Framework[] = [
       "Efficacia interpersonale",
     ],
     usage:
-      "Hu-Mind richiama la cornice DBT quando osserva oscillazioni emotive intense, difficoltà nel tollerare il disagio o tensioni interpersonali.",
+      "Hu-Mind richiama questa cornice quando il materiale parla di intensità emotiva, pause e scelte relazionali.",
     limits:
-      "Le abilità sono efficaci se praticate nel tempo. Hu-Mind può segnalarle ma non sostituisce un percorso DBT strutturato condotto da un professionista qualificato.",
+      "Questa pagina è informativa: Hu-Mind non propone percorsi strutturati né sostituisce supporti professionali.",
     sources: [
       "Linehan, M. M. (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder.",
       "Linehan, M. M. (2014). DBT Skills Training Manual (2nd ed.).",
@@ -123,7 +123,7 @@ const FRAMEWORKS: Framework[] = [
     usage:
       "Hu-Mind utilizza questa cornice come lente educativa per descrivere pattern di avvio del compito, energia variabile e percezione del tempo.",
     limits:
-      "Non è uno strumento diagnostico. La presenza di tratti non implica una diagnosi di ADHD, che richiede valutazione clinica specialistica.",
+      "È una lente descrittiva, non una classificazione della persona. Le osservazioni restano materiale per riflettere.",
     sources: [
       "Barkley, R. A. (2015). Attention-Deficit Hyperactivity Disorder: A Handbook for Diagnosis and Treatment.",
       "Brown, T. E. (2013). A New Understanding of ADHD in Children and Adults.",
@@ -146,7 +146,7 @@ const FRAMEWORKS: Framework[] = [
     usage:
       "Hu-Mind utilizza la cornice trauma-informata per riconoscere segnali di iper- o ipo-attivazione e per modulare il tono delle proprie domande.",
     limits:
-      "Non sostituisce un percorso di elaborazione del trauma. Le osservazioni vengono presentate come ipotesi, mai come affermazioni cliniche.",
+      "Le osservazioni vengono presentate come ipotesi narrative, mai come spiegazioni definitive dell'esperienza.",
     sources: [
       "van der Kolk, B. (2014). The Body Keeps the Score.",
       "Porges, S. W. (2011). The Polyvagal Theory.",
@@ -168,7 +168,7 @@ const FRAMEWORKS: Framework[] = [
     usage:
       "Hu-Mind utilizza concetti di attaccamento per osservare dinamiche di ricerca di prossimità, gestione della distanza e regolazione nelle relazioni significative.",
     limits:
-      "Gli stili sono tendenze, non categorie rigide. Senza valutazione specialistica restano ipotesi descrittive, non diagnosi.",
+      "Gli stili sono tendenze descrittive, non categorie rigide né etichette personali.",
     sources: [
       "Bowlby, J. (1988). A Secure Base.",
       "Mikulincer, M., Shaver, P. R. (2007). Attachment in Adulthood.",
@@ -184,7 +184,7 @@ const FRAMEWORKS: Framework[] = [
     concepts: [
       "Modello processuale della regolazione (Gross)",
       "Granularità emotiva",
-      "Rivalutazione cognitiva",
+      "Rilettura dei pensieri",
       "Soppressione espressiva",
     ],
     usage:
@@ -266,7 +266,7 @@ const FRAMEWORKS: Framework[] = [
     name: "Mindfulness basata su evidenze",
     icon: Wind,
     description:
-      "Pratiche di attenzione intenzionale e non giudicante al momento presente, validate in contesti clinici e non clinici.",
+      "Pratiche di attenzione intenzionale e non giudicante al momento presente, presentate qui come riferimenti educativi.",
     authors: ["Jon Kabat-Zinn", "Zindel Segal", "Mark Williams"],
     concepts: [
       "MBSR (Mindfulness-Based Stress Reduction)",
@@ -277,7 +277,7 @@ const FRAMEWORKS: Framework[] = [
     usage:
       "Hu-Mind si ispira a questa tradizione nelle Pause Guidate e nel proporre momenti di osservazione descrittiva, mai prescrittiva.",
     limits:
-      "Le pratiche non sono adatte in modo indifferenziato a tutte le situazioni (es. fasi acute di trauma). Hu-Mind non sostituisce un'istruzione qualificata.",
+      "Le pratiche non sono adatte in modo indifferenziato a tutte le situazioni. Hu-Mind le presenta solo come riferimenti descrittivi.",
     sources: [
       "Kabat-Zinn, J. (1990). Full Catastrophe Living.",
       "Segal, Z., Williams, M., Teasdale, J. (2012). Mindfulness-Based Cognitive Therapy for Depression.",
@@ -299,8 +299,9 @@ function KnowledgePage() {
         </h1>
         <p className="text-sm md:text-base text-muted-foreground mt-4 max-w-2xl leading-relaxed">
           Non una biblioteca, ma una mappa esplicita dei modelli teorici che Hu-Mind utilizza
-          per leggere e restituire il tuo materiale. Ogni framework è descritto insieme ai suoi
+          per organizzare e restituire il tuo materiale. Ogni framework è descritto insieme ai suoi
           limiti, perché la fiducia nasce dalla trasparenza, non dall'apparenza di intelligenza.
+          Questa pagina è una libreria informativa, non un motore di misurazione.
         </p>
       </header>
 
@@ -414,9 +415,8 @@ function KnowledgePage() {
         <Info className="size-4 text-primary shrink-0 mt-0.5" />
         <p className="text-xs md:text-sm text-foreground/75 leading-relaxed">
           Le osservazioni di Hu-Mind rappresentano ipotesi riflessive costruite a partire dal materiale
-          condiviso dall'utente e da modelli psicologici riconosciuti. Non costituiscono diagnosi,
-          valutazioni cliniche, pareri medici o psicoterapeutici. Hu-Mind supporta la riflessione
-          personale e non sostituisce professionisti qualificati.
+          condiviso dall'utente e da lenti teoriche esplicite. Non sono etichette, punteggi o conclusioni
+          sulla persona. Hu-Mind supporta consapevolezza personale e memoria narrativa.
         </p>
       </div>
     </div>

@@ -26,10 +26,10 @@ export type ReasoningTraceData = {
 };
 
 const CONFIDENCE_META: Record<Confidence, { label: string; tone: string; pct: number }> = {
-  "low": { label: "Bassa", tone: "bg-muted text-muted-foreground border-border", pct: 25 },
-  "moderate": { label: "Moderata", tone: "bg-dust/20 text-foreground border-dust/40", pct: 50 },
-  "high": { label: "Alta", tone: "bg-primary/15 text-primary border-primary/30", pct: 75 },
-  "very-high": { label: "Molto Alta", tone: "bg-primary/25 text-primary border-primary/40", pct: 95 },
+  "low": { label: "Demo bassa", tone: "bg-muted text-muted-foreground border-border", pct: 25 },
+  "moderate": { label: "Demo media", tone: "bg-dust/20 text-foreground border-dust/40", pct: 50 },
+  "high": { label: "Demo alta", tone: "bg-primary/15 text-primary border-primary/30", pct: 75 },
+  "very-high": { label: "Demo molto alta", tone: "bg-primary/25 text-primary border-primary/40", pct: 95 },
 };
 
 const SOURCE_ICON: Record<ReasoningSource["type"], typeof MessageCircle> = {
@@ -68,12 +68,12 @@ export function ReasoningTrace({ data }: { data: ReasoningTraceData }) {
           <div className="text-sm font-medium text-foreground">Come siamo arrivati a questa osservazione?</div>
           <div className="text-[11px] text-muted-foreground mt-0.5 flex flex-wrap items-center gap-2">
             <span className={`px-2 py-0.5 rounded-full border text-[10px] uppercase tracking-widest ${conf.tone}`}>
-              Affidabilità · {conf.label}
+              Indicatore demo · {conf.label}
             </span>
             <span>·</span>
             <span>{data.frameworks.join(" + ")}</span>
             <span>·</span>
-            <span>{data.evidence.count} evidenze</span>
+            <span>{data.evidence.count} elementi demo</span>
           </div>
         </div>
         <ChevronDown className={`size-4 text-muted-foreground shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
@@ -83,7 +83,7 @@ export function ReasoningTrace({ data }: { data: ReasoningTraceData }) {
         <div className="border-t border-border/60 p-5 space-y-5">
           {/* Reasoning path */}
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Percorso del ragionamento</div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Percorso demo del ragionamento</div>
             <div className="flex flex-wrap items-center gap-2 text-xs">
               {["Conversazioni", "Temi", "Pattern", "Evidenze", "Framework", "Osservazione"].map((s, i, arr) => (
                 <span key={s} className="flex items-center gap-2">
@@ -96,7 +96,7 @@ export function ReasoningTrace({ data }: { data: ReasoningTraceData }) {
 
           {/* Sources */}
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Osservazioni utilizzate</div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Osservazioni demo utilizzate</div>
             <ul className="space-y-2">
               {data.sources.map((s, i) => {
                 const Icon = SOURCE_ICON[s.type];
@@ -117,7 +117,7 @@ export function ReasoningTrace({ data }: { data: ReasoningTraceData }) {
 
           {/* Evidence */}
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Elementi di supporto</div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Elementi demo di supporto</div>
             <div className="grid sm:grid-cols-2 gap-2 text-xs">
               <EvidenceCell label="Quantità" value={`${data.evidence.count} elementi`} />
               <EvidenceCell label="Distribuzione temporale" value={data.evidence.distribution} />
@@ -138,12 +138,12 @@ export function ReasoningTrace({ data }: { data: ReasoningTraceData }) {
 
           {/* Confidence detail */}
           <div>
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Livello di affidabilità</div>
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Indicatore demo</div>
             <div className="h-1.5 rounded-full bg-muted overflow-hidden">
               <div className="h-full bg-gradient-to-r from-sage to-sage-deep rounded-full transition-all" style={{ width: `${conf.pct}%` }} />
             </div>
             <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5">
-              <span>Bassa</span><span>Moderata</span><span>Alta</span><span>Molto alta</span>
+              <span>Basso</span><span>Medio</span><span>Alto</span><span>Molto alto</span>
             </div>
           </div>
 
