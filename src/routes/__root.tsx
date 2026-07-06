@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { ThoughtsProvider } from "../domain/ThoughtsProvider";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -77,11 +78,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Synapse — La biblioteca della tua mente" },
-      { name: "description", content: "Uno spazio calmo per catturare, collegare e comprendere i tuoi pensieri." },
-      { name: "author", content: "Synapse" },
-      { property: "og:title", content: "Synapse" },
-      { property: "og:description", content: "La biblioteca della tua mente." },
+      { title: "Hu-Mind — La memoria narrativa dei tuoi pensieri" },
+      { name: "description", content: "Uno spazio calmo per catturare, collegare e osservare i tuoi pensieri." },
+      { name: "author", content: "Hu-Mind" },
+      { property: "og:title", content: "Hu-Mind" },
+      { property: "og:description", content: "La memoria narrativa dei tuoi pensieri." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -121,8 +122,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ThoughtsProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </ThoughtsProvider>
     </QueryClientProvider>
   );
 }

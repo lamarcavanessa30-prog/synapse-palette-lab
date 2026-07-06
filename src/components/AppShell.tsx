@@ -1,6 +1,7 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Home, MessageCircle, Network, BookOpen, User, Plus, Sparkles, Search, LineChart, BookMarked, Wind, Library } from "lucide-react";
 import { useState } from "react";
+import { useThoughts } from "@/domain/ThoughtsProvider";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
@@ -16,8 +17,19 @@ const nav = [
 
 export function AppShell() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { addThought } = useThoughts();
   const [open, setOpen] = useState(false);
   const [thought, setThought] = useState("");
+  const [tag, setTag] = useState("Riflessione");
+
+  const saveThought = () => {
+    const saved = addThought({ text: thought, source: "capture", tags: [tag] });
+    if (!saved) return;
+
+    setThought("");
+    setTag("Riflessione");
+    setOpen(false);
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -28,7 +40,7 @@ export function AppShell() {
             <Sparkles className="size-4" />
           </div>
           <div>
-            <div className="font-display text-xl leading-none">Synapse</div>
+            <div className="font-display text-xl leading-none">Hu-Mind</div>
             <div className="text-[11px] tracking-wide uppercase text-muted-foreground mt-1">le connessioni della tua storia</div>
           </div>
         </div>
@@ -64,7 +76,7 @@ export function AppShell() {
 
         <div className="mt-auto p-4 rounded-xl bg-secondary/60 border border-border/60">
           <div className="text-xs text-muted-foreground mb-1">Oggi</div>
-          <div className="font-display text-lg leading-snug">"Ogni pensiero conservato è un passo verso una comprensione più chiara."</div>
+          <div className="font-display text-lg leading-snug">"Ogni pensiero conservato è un passo verso una storia più leggibile."</div>
         </div>
       </aside>
 
@@ -114,15 +126,29 @@ export function AppShell() {
               className="w-full bg-transparent text-lg font-display leading-relaxed outline-none resize-none placeholder:text-muted-foreground/60"
             />
             <div className="flex flex-wrap gap-2 mt-4">
-              {["💭 Riflessione", "📚 Lettura", "🌿 Idea", "🌙 Sogno", "❤️ Emozione"].map((t) => (
-                <button key={t} className="text-xs px-3 py-1.5 rounded-full bg-muted hover:bg-secondary transition">{t}</button>
+              {["Riflessione", "Lettura", "Idea", "Sogno", "Emozione"].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTag(t)}
+                  className={`text-xs px-3 py-1.5 rounded-full transition ${
+                    tag === t ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-secondary"
+                  }`}
+                >
+                  {t}
+                </button>
               ))}
             </div>
             <div className="flex items-center justify-between mt-6 pt-4 border-t border-border/60">
               <div className="text-xs text-muted-foreground">Salvato in <span className="text-foreground">Diario · oggi</span></div>
               <div className="flex gap-2">
                 <button onClick={() => setOpen(false)} className="px-4 py-2 rounded-lg text-sm hover:bg-muted">Annulla</button>
-                <button onClick={() => { setThought(""); setOpen(false); }} className="px-5 py-2 rounded-lg text-sm bg-primary text-primary-foreground shadow-soft hover:opacity-90">Conserva</button>
+                <button
+                  onClick={saveThought}
+                  disabled={!thought.trim()}
+                  className="px-5 py-2 rounded-lg text-sm bg-primary text-primary-foreground shadow-soft hover:opacity-90 disabled:opacity-40"
+                >
+                  Conserva
+                </button>
               </div>
             </div>
           </div>

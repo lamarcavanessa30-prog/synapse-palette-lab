@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Sparkles, Send, Paperclip, BookMarked, AlertTriangle, X, Wind, Clock } from "lucide-react";
 import { suggestPracticeForText } from "./_app.pause";
+import { useThoughts } from "@/domain/ThoughtsProvider";
 
 export const Route = createFileRoute("/_app/chat")({
   component: ChatPage,
@@ -31,8 +32,8 @@ const DEPTHS: Depth[] = [
     dot: "bg-emerald-500",
     ring: "ring-emerald-500/40",
     tagline: "Ti ascolto.",
-    description: "Spazio, validazione emotiva, supporto leggero. Nessuna interpretazione.",
-    guide: "L'AI ascolta, valida e chiarisce. Non scava, non analizza pattern.",
+    description: "Spazio, attenzione e chiarimento leggero. Nessuna interpretazione.",
+    guide: "Hu-Mind ascolta e aiuta a chiarire. Non scava, non conclude.",
     reply:
       "Resto qui con te. Quello che mi stai dicendo ha senso, e non c'è bisogno di andare oltre adesso. Vuoi raccontarmi ancora un po' come la stai vivendo?",
   },
@@ -43,7 +44,7 @@ const DEPTHS: Depth[] = [
     ring: "ring-sky-500/40",
     tagline: "Riflettiamo insieme.",
     description: "Osservazioni leggere, collegamenti semplici, domande aperte. Profondità moderata.",
-    guide: "L'AI propone osservazioni leggere e domande aperte. Modalità predefinita.",
+    guide: "Hu-Mind propone osservazioni leggere e domande aperte. Modalità predefinita.",
     reply:
       "Mm, resto un attimo qui con te su questa cosa. Posso chiederti — cosa cambierebbe, se invece di trattenerla la lasciassi semplicemente stare?",
   },
@@ -54,7 +55,7 @@ const DEPTHS: Depth[] = [
     ring: "ring-violet-500/40",
     tagline: "Cerchiamo significati.",
     description: "Più curiosità, ricerca di significati, collegamenti tra eventi, Domande Vive più frequenti.",
-    guide: "L'AI esplora temi ricorrenti e propone collegamenti tra esperienze diverse.",
+    guide: "Hu-Mind esplora temi ricorrenti e propone collegamenti tra esperienze diverse.",
     reply:
       "C'è qualcosa che torna, qui. Mi ricorda una cosa che mi avevi raccontato a maggio, sul bisogno di rallentare prima che le cose ti chiedano qualcosa. Vivi questi due momenti come parte della stessa domanda?",
     refs: ["Letture lente", "Maggio · 02"],
@@ -67,7 +68,7 @@ const DEPTHS: Depth[] = [
     tagline: "Guardiamo i pattern.",
     description: "Analisi di pattern longitudinali e collegamenti tra periodi diversi. Uso più intenso dei framework.",
     guide:
-      "L'AI usa CBT, ACT, DBT, ADHD-informed e Relazioni per leggere pattern longitudinali. Mai diagnosi, mai etichette.",
+      "Hu-Mind osserva ricorrenze narrative e pattern longitudinali. Mai diagnosi, mai etichette.",
     advanced: true,
     warning: "Questa modalità può portare a riflessioni profonde e a domande impegnative.",
     reply:
@@ -92,14 +93,22 @@ const DEPTHS: Depth[] = [
 
 const STORAGE_KEY = "humind.chat.depth";
 
+function formatThoughtRef(createdAt: string) {
+  return new Intl.DateTimeFormat("it-IT", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(createdAt));
+}
+
 function ChatPage() {
+  const { addThought, thoughts } = useThoughts();
   const [depthId, setDepthId] = useState<DepthId>("riflessione");
   const [acknowledgedAdvanced, setAcknowledgedAdvanced] = useState<Record<string, boolean>>({});
   const [pendingDepth, setPendingDepth] = useState<Depth | null>(null);
   const [messages, setMessages] = useState<Msg[]>([
-    { id: 1, from: "ai", text: "Ehi, bentornata. L'ultima volta mi stavi raccontando di quella sensazione di lentezza che ti faceva bene. Vuoi riprendere da lì, o c'è altro che ti gira in testa oggi?", level: "riflessione" },
-    { id: 2, from: "me", text: "Riprendiamola. Mi accorgo che quando vado di fretta perdo i dettagli — e poi mi manca qualcosa." },
-    { id: 3, from: "ai", text: "Eh, ti capisco. Mi sono ricordata una cosa che avevi scritto ad aprile, su Calvino e la leggerezza — credo si parlino tra loro. Te la mostro?", refs: ["Letture lente", "Aprile · 14"], level: "riflessione" },
+    { id: 1, from: "ai", text: "Ehi, bentornata. Scrivi quello che ti attraversa: lo conserverò nella tua memoria narrativa e potremo osservarne i fili nel tempo.", level: "riflessione" },
   ]);
   const [input, setInput] = useState("");
   const [suggestion, setSuggestion] = useState<ReturnType<typeof suggestPracticeForText>>(null);
@@ -123,6 +132,7 @@ function ChatPage() {
   }, [depthId]);
 
   const depth = DEPTHS.find((d) => d.id === depthId) ?? DEPTHS[1];
+  const latestThoughtRefs = thoughts.slice(0, 2).map((thought) => formatThoughtRef(thought.createdAt));
 
   const requestDepth = (next: Depth) => {
     if (next.id === depth.id) return;
@@ -156,6 +166,7 @@ function ChatPage() {
   const send = () => {
     if (!input.trim()) return;
     const text = input;
+    addThought({ text, source: "chat", tags: ["Conversazione"] });
     setMessages((m) => [...m, { id: Date.now(), from: "me", text }]);
     setInput("");
     const nextCount = userMsgCount + 1;
@@ -169,7 +180,7 @@ function ChatPage() {
     setTimeout(() => {
       setMessages((m) => [
         ...m,
-        { id: Date.now() + 1, from: "ai", text: current.reply, refs: current.refs, level: current.id },
+        { id: Date.now() + 1, from: "ai", text: current.reply, refs: current.refs ?? latestThoughtRefs, level: current.id },
       ]);
       // Contextual practice suggestion — based on sentiment + recurring themes
       // across the last few user messages. Throttled to at most one every 4
@@ -190,7 +201,7 @@ function ChatPage() {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Conversazione</div>
-              <h1 className="font-display text-2xl mt-1">Lentezza come attenzione</h1>
+              <h1 className="font-display text-2xl mt-1">Conversazione riflessiva</h1>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className={`size-2 rounded-full ${depth.dot} animate-pulse-soft`} />
@@ -231,6 +242,21 @@ function ChatPage() {
             </div>
             <p className="mt-2 text-xs text-muted-foreground italic">{depth.guide}</p>
           </div>
+
+          {thoughts.length > 0 && (
+            <div className="rounded-2xl border border-border/60 bg-card/60 px-4 py-3">
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
+                Memoria recente
+              </div>
+              <div className="space-y-1.5">
+                {thoughts.slice(0, 2).map((thought) => (
+                  <p key={thought.id} className="truncate text-xs text-foreground/75">
+                    {thought.text}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

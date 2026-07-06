@@ -593,7 +593,7 @@ const DOMAINS: Domain[] = [
     id: "strengths",
     label: "Sistema di rilevamento delle risorse",
     acronym: "FORZE",
-    description: "Le tue qualità ricorrenti. Vengono valorizzate in tutta l'esperienza Synapse.",
+    description: "Le tue qualità ricorrenti. Vengono valorizzate in tutta l'esperienza Hu-Mind.",
     icon: Sparkles,
     accent: "from-primary/20 to-primary/5",
     patterns: [
@@ -772,16 +772,16 @@ function FrameworkPage() {
           Le cornici scientifiche dietro le tue connessioni.
         </h1>
         <p className="text-foreground/70 max-w-2xl leading-relaxed">
-          Synapse organizza le osservazioni educative secondo modelli psicologici riconosciuti.
-          Non è uno strumento diagnostico: ogni pattern è un'ipotesi per la riflessione, mai un'etichetta.
+          Hu-Mind organizza le osservazioni come lenti di lettura per la riflessione personale.
+          Ogni pattern è un'ipotesi narrativa, mai un'etichetta.
         </p>
 
         {/* Safety strip */}
         <div className="mt-6 flex items-start gap-3 rounded-2xl border border-border/60 bg-secondary/40 px-4 py-3">
           <Info className="size-4 text-primary shrink-0 mt-0.5" />
           <p className="text-xs md:text-sm text-foreground/70 leading-relaxed">
-            Nessuna osservazione costituisce diagnosi o conclusione clinica.
-            Tutto ciò che vedi è materiale educativo per la consapevolezza personale.
+            Nessuna osservazione è una conclusione su chi sei.
+            Tutto ciò che vedi è materiale per consapevolezza, memoria narrativa e pensiero riflessivo.
           </p>
         </div>
       </header>
@@ -968,8 +968,8 @@ function FrameworkPage() {
           <div className="space-y-2">
             <h3 className="font-display text-base text-foreground">Sicurezza e trasparenza</h3>
             <p className="text-sm text-foreground/70 leading-relaxed">
-              Synapse non formula diagnosi, non assegna disturbi e non esprime certezze cliniche.
-              Le osservazioni sono ipotesi educative per favorire la consapevolezza.
+              Hu-Mind non formula conclusioni identitarie e non assegna etichette.
+              Le osservazioni sono ipotesi riflessive per favorire consapevolezza e pattern recognition.
               Hai sempre il controllo: puoi escludere qualsiasi pattern, chiedere un ricalcolo
               o rimuovere ciò che non vuoi venga ricordato.
             </p>

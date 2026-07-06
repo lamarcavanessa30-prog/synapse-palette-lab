@@ -1,15 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, HelpCircle } from "lucide-react";
+import { useThoughts } from "@/domain/ThoughtsProvider";
 
 export const Route = createFileRoute("/_app/")({
   component: HomePage,
 });
-
-const recent = [
-  { text: "Forse la creatività è solo memoria che impara a danzare.", time: "2 ore fa" },
-  { text: "«Camminare è il modo in cui il corpo pensa.» — Rebecca Solnit", time: "Ieri" },
-  { text: "Progettare un rituale di scrittura serale, sette minuti, senza schermo.", time: "Ieri" },
-];
 
 const emergingThemes = [
   "Architettura interiore",
@@ -23,6 +18,9 @@ const livingQuestion = {
 };
 
 function HomePage() {
+  const { thoughts } = useThoughts();
+  const recent = thoughts.slice(0, 3);
+
   return (
     <div className="p-6 md:p-12 max-w-4xl mx-auto pb-32">
       {/* Hero */}
@@ -80,12 +78,18 @@ function HomePage() {
           </Link>
         </div>
         <div className="divide-y divide-border/50">
-          {recent.map((r, i) => (
-            <article key={i} className="py-6 first:pt-0 last:pb-0 group">
-              <p className="font-display text-lg leading-relaxed text-foreground/90">{r.text}</p>
-              <div className="mt-3 text-xs text-muted-foreground/70">{r.time}</div>
+          {recent.length > 0 ? (
+            recent.map((thought) => (
+            <article key={thought.id} className="py-6 first:pt-0 last:pb-0 group">
+              <p className="font-display text-lg leading-relaxed text-foreground/90">{thought.text}</p>
+              <div className="mt-3 text-xs text-muted-foreground/70">{formatThoughtTime(thought.createdAt)}</div>
             </article>
-          ))}
+            ))
+          ) : (
+            <div className="py-8 text-sm text-muted-foreground">
+              Nessun pensiero ancora conservato. Usa “Cattura un pensiero” per iniziare la tua memoria narrativa.
+            </div>
+          )}
         </div>
       </section>
 
@@ -106,4 +110,13 @@ function HomePage() {
       </section>
     </div>
   );
+}
+
+function formatThoughtTime(createdAt: string) {
+  return new Intl.DateTimeFormat("it-IT", {
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(createdAt));
 }

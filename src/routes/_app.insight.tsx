@@ -222,7 +222,7 @@ function Disclaimer({ compact = false }: { compact?: boolean }) {
     <div className={`flex gap-3 rounded-2xl border border-border/60 bg-secondary/40 ${compact ? "p-3" : "p-4 md:p-5"}`}>
       <Info className="size-4 text-primary shrink-0 mt-0.5" />
       <p className={`${compact ? "text-xs" : "text-xs md:text-sm"} text-foreground/75 leading-relaxed`}>
-        Synapse offre spunti educativi e di auto-riflessione. <span className="text-foreground">Non fornisce diagnosi, valutazioni cliniche o consigli medici.</span> Per un percorso di cura, rivolgiti a un professionista qualificato.
+        Hu-Mind offre spunti di auto-riflessione. <span className="text-foreground">Non formula diagnosi, valutazioni cliniche o consigli medici.</span> Per bisogni di salute, rivolgiti a un professionista qualificato.
       </p>
     </div>
   );
@@ -716,7 +716,7 @@ function PersonalReport() {
       <header className="px-6 md:px-10 py-6 md:py-8 bg-gradient-to-br from-secondary via-card to-accent/20 border-b border-border/60">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Synapse · report personale</div>
+            <div className="text-[11px] uppercase tracking-widest text-muted-foreground">Hu-Mind · report personale</div>
             <h3 className="font-display text-2xl md:text-3xl mt-1">Riflessioni — Giugno 2026</h3>
           </div>
           <Pill><Calendar className="size-3" /> generato l'11 giugno</Pill>
@@ -792,7 +792,7 @@ function PersonalReport() {
           </div>
         </ReportSection>
 
-        <ProDisclaimer text="Questo documento è uno strumento di auto-riflessione. Non costituisce una diagnosi, una valutazione clinica né un consiglio medico. Per un percorso terapeutico, rivolgiti a un professionista qualificato." />
+        <ProDisclaimer text="Questo documento è uno strumento di auto-riflessione. Non costituisce una diagnosi, una valutazione clinica né un consiglio medico. Per bisogni di salute, rivolgiti a un professionista qualificato." />
       </div>
     </article>
   );
@@ -801,7 +801,7 @@ function PersonalReport() {
 // ——— PROFESSIONAL REPORT ———
 const proSources = [
   {
-    name: "Conversazioni con Synapse",
+    name: "Conversazioni con Hu-Mind",
     weight: 42,
     count: "118 scambi nel periodo",
     desc: "Dialoghi testuali a tema libero, prevalentemente serali. Forniscono il materiale narrativo più ampio.",
@@ -911,7 +911,7 @@ function ProfessionalReport() {
   return (
     <article className="rounded-3xl bg-card border border-border/60 shadow-soft overflow-hidden">
       <header className="px-6 md:px-12 py-10 md:py-14 bg-gradient-to-b from-secondary/60 via-card to-card border-b border-border/60">
-        <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Synapse · report professionista</div>
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Hu-Mind · report professionista</div>
         <h3 className="font-display text-3xl md:text-4xl mt-3 leading-tight">Report di osservazione personale</h3>
         <p className="text-sm md:text-base text-muted-foreground mt-3 max-w-2xl leading-relaxed">
           Sintesi strutturata delle conversazioni, riflessioni e materiali raccolti.

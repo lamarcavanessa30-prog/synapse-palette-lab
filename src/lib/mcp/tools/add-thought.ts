@@ -13,9 +13,9 @@ export default defineTool({
   handler: ({ text }) => {
     return {
       content: [
-        { type: "text", text: `Pensiero salvato: "${text}"` },
+        { type: "text", text: "Sprint 1 stores thoughts in the browser. MCP write-through will connect when server persistence is introduced." },
       ],
-      structuredContent: { saved: true, text },
+      structuredContent: { saved: false, text },
     };
   },
 });

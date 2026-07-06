@@ -17,14 +17,23 @@ export default defineTool({
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: ({ limit }) => {
-    const sample = [
-      { date: "oggi", text: "Mi accorgo che quando vado di fretta perdo i dettagli." },
-      { date: "ieri", text: "Ho letto piano. È stata una forma di riposo." },
-      { date: "2 giorni fa", text: "Ho detto di sì a qualcosa senza pensarci." },
-    ].slice(0, limit);
+    const thoughts: Array<{ date: string; text: string }> = [];
     return {
-      content: [{ type: "text", text: JSON.stringify(sample, null, 2) }],
-      structuredContent: { thoughts: sample },
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              note: "Sprint 1 stores thoughts in the browser. MCP tools will connect when server persistence is introduced.",
+              limit,
+              thoughts,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+      structuredContent: { thoughts },
     };
   },
 });

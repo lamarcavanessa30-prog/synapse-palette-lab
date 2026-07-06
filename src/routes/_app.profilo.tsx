@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bell, Moon, Lock, Download, Sparkles, ChevronRight, Heart, Stethoscope, MessageCircle, BookMarked, Plus } from "lucide-react";
+import { Bell, Moon, Lock, Download, Sparkles, ChevronRight, Heart, MessageCircle, BookMarked, Plus } from "lucide-react";
+import { useThoughts } from "@/domain/ThoughtsProvider";
 
 export const Route = createFileRoute("/_app/profilo")({
   component: ProfiloPage,
 });
 
 function ProfiloPage() {
+  const { thoughts } = useThoughts();
+
   return (
     <div className="px-6 md:px-12 py-10 max-w-4xl mx-auto pb-32">
       {/* Hero card */}
@@ -32,8 +35,8 @@ function ProfiloPage() {
       {/* Light stats — qualitative */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-8">
         {[
-          { k: "47", l: "giorni in cui ci siamo parlate" },
-          { k: "142", l: "pensieri raccolti" },
+          { k: String(countUniqueDays(thoughts.map((thought) => thought.createdAt))), l: "giorni con pensieri" },
+          { k: String(thoughts.length), l: "pensieri raccolti" },
           { k: "12", l: "fili intrecciati" },
         ].map((s) => (
           <div key={s.l} className="rounded-2xl bg-card border border-border/60 p-5 text-center shadow-soft">
@@ -50,7 +53,7 @@ function ProfiloPage() {
             <div className="text-[11px] uppercase tracking-widest text-muted-foreground mb-1">memoria condivisa</div>
             <h2 className="font-display text-2xl md:text-3xl">Cose importanti da sapere di me</h2>
             <p className="text-sm text-muted-foreground mt-2 max-w-xl">
-              Quello che vuoi che Synapse tenga a mente quando parliamo. Cambia, cresce, si aggiorna con te.
+              Quello che vuoi che Hu-Mind tenga a mente quando rifletti. Cambia, cresce, si aggiorna con te.
             </p>
           </div>
           <button className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-card border border-border/60 text-xs hover:bg-muted transition">
@@ -62,7 +65,7 @@ function ProfiloPage() {
           {[
             { icon: Heart, label: "Persone", title: "Giulia, sorella minore", body: "È il mio punto di riferimento. La nomino spesso quando parlo di casa." },
             { icon: Heart, label: "Persone", title: "Marco", body: "Relazione finita a marzo. È ancora un tema vivo, trattalo con cura." },
-            { icon: Stethoscope, label: "Diagnosi", title: "Disturbo d'ansia generalizzato", body: "In terapia da due anni. Lo gestisco bene, ma nei periodi di stress riemerge." },
+            { icon: BookMarked, label: "Contesto", title: "Periodi di stress", body: "Nei periodi intensi tendo a perdere il ritmo. Mi aiuta ritrovare continuità con piccoli gesti." },
             { icon: BookMarked, label: "La mia storia", title: "Sono cresciuta tra due lingue", body: "Italiano e tedesco. Spesso il modo in cui penso cambia con la lingua." },
             { icon: MessageCircle, label: "Come preferisco parlare", title: "Senza consigli non richiesti", body: "Mi aiuta di più quando fai domande, non quando proponi soluzioni." },
             { icon: MessageCircle, label: "Come preferisco parlare", title: "Tono morbido, mai clinico", body: "Le etichette psicologiche mi mettono a disagio. Preferisco parole umane." },
@@ -120,7 +123,7 @@ function ProfiloPage() {
           {[
             { icon: Bell, title: "Notifiche delicate", desc: "Un promemoria al giorno, mai più di uno." },
             { icon: Moon, title: "Modalità notte", desc: "Tonalità più calde dopo il tramonto." },
-            { icon: Sparkles, title: "Voce di Synapse", desc: "Riflessiva · Calma · Curiosa" },
+            { icon: Sparkles, title: "Voce di Hu-Mind", desc: "Riflessiva · Calma · Curiosa" },
             { icon: Lock, title: "Privacy & cifratura", desc: "I tuoi pensieri restano tuoi, sempre." },
             { icon: Download, title: "Esporta i tuoi pensieri", desc: "Scarica tutti i pensieri in Markdown." },
           ].map((r) => (
@@ -139,8 +142,12 @@ function ProfiloPage() {
       </section>
 
       <p className="text-center text-[11px] text-muted-foreground mt-12">
-        Synapse · versione 0.1 · costruito con cura
+        Hu-Mind · versione 0.1 · costruito con cura
       </p>
     </div>
   );
+}
+
+function countUniqueDays(dates: string[]) {
+  return new Set(dates.map((date) => new Date(date).toDateString())).size;
 }
