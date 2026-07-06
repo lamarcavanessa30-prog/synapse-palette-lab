@@ -6,6 +6,12 @@ import {
   analyzeConversationDepth,
   type ConversationDepthId,
 } from "@/domain/conversationAdaptation";
+import {
+  DEFAULT_CONVERSATION_MODE,
+  loadConversationModePreference,
+  saveConversationModePreference,
+  type ConversationModePreference,
+} from "@/domain/conversationPreferences";
 import { useThoughts } from "@/domain/ThoughtsProvider";
 
 export const Route = createFileRoute("/_app/chat")({
@@ -14,7 +20,7 @@ export const Route = createFileRoute("/_app/chat")({
 
 type Msg = { id: number; from: "me" | "ai"; text: string; refs?: string[]; level?: DepthId };
 type DepthId = ConversationDepthId;
-type ModeId = "automatica" | DepthId;
+type ModeId = ConversationModePreference;
 
 type Depth = {
   id: DepthId;
@@ -97,13 +103,10 @@ const DEPTHS: Depth[] = [
 ];
 
 const AUTO_MODE = {
-  id: "automatica",
+  id: DEFAULT_CONVERSATION_MODE,
   label: "Automatica ⭐ (Consigliata)",
   description: "Hu-Mind adatta profondità, ritmo e stile in base alla scrittura.",
 };
-
-const DEPTH_STORAGE_KEY = "humind.chat.depth";
-const MODE_STORAGE_KEY = "humind.chat.mode";
 
 function formatThoughtRef(createdAt: string) {
   return new Intl.DateTimeFormat("it-IT", {
@@ -116,7 +119,7 @@ function formatThoughtRef(createdAt: string) {
 
 function ChatPage() {
   const { addThought, thoughts } = useThoughts();
-  const [modeId, setModeId] = useState<ModeId>("automatica");
+  const [modeId, setModeId] = useState<ModeId>(DEFAULT_CONVERSATION_MODE);
   const [depthId, setDepthId] = useState<DepthId>("ascolto");
   const [acknowledgedAdvanced, setAcknowledgedAdvanced] = useState<Record<string, boolean>>({});
   const [pendingDepth, setPendingDepth] = useState<Depth | null>(null);
@@ -129,33 +132,19 @@ function ChatPage() {
   const [lastSuggestionAt, setLastSuggestionAt] = useState(-99);
   const [dismissed, setDismissed] = useState<string[]>([]);
 
-  // Restore conversation preferences from localStorage.
+  // Restore only the user's mode preference. Conversation content stays out of localStorage.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const savedDepth = window.localStorage.getItem(DEPTH_STORAGE_KEY);
-    const savedMode = window.localStorage.getItem(MODE_STORAGE_KEY);
+    const savedMode = loadConversationModePreference();
+    setModeId(savedMode);
 
-    if (savedDepth && DEPTHS.some((d) => d.id === savedDepth)) {
-      setDepthId(savedDepth as DepthId);
-    }
-
-    if (
-      savedMode === AUTO_MODE.id ||
-      (savedMode && DEPTHS.some((d) => d.id === savedMode))
-    ) {
-      setModeId(savedMode as ModeId);
+    if (savedMode !== DEFAULT_CONVERSATION_MODE) {
+      setDepthId(savedMode);
     }
   }, []);
 
   // TODO: Replace local preference persistence with the future conversation backend.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(DEPTH_STORAGE_KEY, depthId);
-  }, [depthId]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(MODE_STORAGE_KEY, modeId);
+    saveConversationModePreference(modeId);
   }, [modeId]);
 
   const depth = DEPTHS.find((d) => d.id === depthId) ?? DEPTHS[1];
@@ -197,7 +186,7 @@ function ChatPage() {
 
   const activateAutomaticMode = () => {
     setPendingDepth(null);
-    setModeId("automatica");
+    setModeId(DEFAULT_CONVERSATION_MODE);
   };
 
   const send = () => {
@@ -214,7 +203,7 @@ function ChatPage() {
       text,
     ];
     const adaptation =
-      modeId === "automatica"
+      modeId === DEFAULT_CONVERSATION_MODE
         ? analyzeConversationDepth({
             message: text,
             recentUserMessages: recentUserTexts,
@@ -257,7 +246,7 @@ function ChatPage() {
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className={`size-2 rounded-full ${depth.dot} animate-pulse-soft`} />
               <span>
-                {modeId === "automatica"
+                {modeId === DEFAULT_CONVERSATION_MODE
                   ? `automatica · ${depth.label.toLowerCase()}`
                   : `in modalità ${depth.label.toLowerCase()}`}
               </span>
@@ -280,18 +269,18 @@ function ChatPage() {
                 title={AUTO_MODE.description}
                 className={[
                   "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border transition",
-                  modeId === "automatica"
+                  modeId === DEFAULT_CONVERSATION_MODE
                     ? "bg-secondary border-border ring-2 ring-primary/30"
                     : "border-border/60 text-muted-foreground hover:text-foreground hover:bg-muted/60",
                 ].join(" ")}
               >
                 <Sparkles className="size-3.5" />
-                <span className={modeId === "automatica" ? "text-foreground font-medium" : ""}>
+                <span className={modeId === DEFAULT_CONVERSATION_MODE ? "text-foreground font-medium" : ""}>
                   {AUTO_MODE.label}
                 </span>
               </button>
               {DEPTHS.map((d) => {
-                const active = modeId !== "automatica" && d.id === depth.id;
+                const active = modeId !== DEFAULT_CONVERSATION_MODE && d.id === depth.id;
                 return (
                   <button
                     key={d.id}
@@ -439,7 +428,7 @@ function ChatPage() {
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
             rows={1}
             placeholder={
-              modeId === "automatica"
+              modeId === DEFAULT_CONVERSATION_MODE
                 ? "Scrivi liberamente: Hu-Mind adatta la conversazione…"
                 : `Scrivi in modalità ${depth.label.toLowerCase()}…`
             }
