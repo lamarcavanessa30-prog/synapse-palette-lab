@@ -1,0 +1,66 @@
+import type { ConversationModePreference } from "./conversationPreferences";
+import { composePromptContext } from "./promptComposer";
+import { extractCognitiveCandidates } from "./cognitiveExtraction";
+import { validateCognitiveExtraction } from "./cognitiveValidation";
+import { prepareMemoryCandidates } from "./memoryCandidates";
+import { prepareMemoryReviewGate } from "./memoryReviewGate";
+import { lookupExistingThoughts } from "./thoughtLookup";
+import type { Thought } from "./thoughts";
+
+const FIXTURE_CONVERSATION_MODE: ConversationModePreference = "automatica";
+
+const FIXTURE_THOUGHTS: Thought[] = [
+  {
+    id: "thought_existing_uncertainty",
+    text: "non so",
+    createdAt: "2026-07-07T10:00:00.000Z",
+    source: "chat",
+    tags: ["Conversazione"],
+  },
+];
+
+export const promptComposerFixture = composePromptContext({
+  currentUserMessage: "Non so bene cosa sto cercando di capire.",
+  recentConversation: [
+    {
+      role: "assistant",
+      text: "Scrivi pure quello che vuoi osservare.",
+    },
+    {
+      role: "user",
+      text: "Mi chiedo da dove inizi questo filo.",
+    },
+  ],
+  conversationMode: FIXTURE_CONVERSATION_MODE,
+});
+
+export const cognitiveExtractionFixture = extractCognitiveCandidates(promptComposerFixture);
+
+export const cognitiveValidationFixture = validateCognitiveExtraction(cognitiveExtractionFixture);
+
+export const memoryCandidateFixture = prepareMemoryCandidates(cognitiveValidationFixture);
+
+export const memoryReviewGateFixture = prepareMemoryReviewGate(memoryCandidateFixture);
+
+export const thoughtLookupFixture = lookupExistingThoughts({
+  reviewGate: memoryReviewGateFixture,
+  thoughts: FIXTURE_THOUGHTS,
+});
+
+export const cognitivePipelineBoundaryFixture = {
+  promptContext: promptComposerFixture,
+  cognitiveExtraction: cognitiveExtractionFixture,
+  cognitiveValidation: cognitiveValidationFixture,
+  memoryCandidates: memoryCandidateFixture,
+  memoryReviewGate: memoryReviewGateFixture,
+  thoughtLookup: thoughtLookupFixture,
+};
+
+export const cognitivePipelineExpectedFixture = {
+  currentUserMessage: "Non so bene cosa sto cercando di capire.",
+  uncertaintyMarkerCount: 1,
+  memoryCandidateCount: 1,
+  readyForReviewCount: 1,
+  matchedCandidateCount: 1,
+  unmatchedCandidateCount: 0,
+};
