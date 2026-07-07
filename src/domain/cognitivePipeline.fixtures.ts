@@ -1,4 +1,5 @@
 import type { ConversationModePreference } from "./conversationPreferences";
+import { runConversationPipeline } from "./conversationPipeline";
 import { composePromptContext } from "./promptComposer";
 import { extractCognitiveCandidates } from "./cognitiveExtraction";
 import { validateCognitiveExtraction } from "./cognitiveValidation";
@@ -47,7 +48,15 @@ export const thoughtLookupFixture = lookupExistingThoughts({
   thoughts: FIXTURE_THOUGHTS,
 });
 
+export const conversationPipelineFixture = runConversationPipeline({
+  currentUserMessage: promptComposerFixture.currentUserMessage,
+  recentMessages: promptComposerFixture.recentConversation,
+  conversationMode: promptComposerFixture.conversationMode,
+  thoughts: FIXTURE_THOUGHTS,
+});
+
 export const cognitivePipelineBoundaryFixture = {
+  conversationPipeline: conversationPipelineFixture,
   promptContext: promptComposerFixture,
   cognitiveExtraction: cognitiveExtractionFixture,
   cognitiveValidation: cognitiveValidationFixture,

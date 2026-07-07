@@ -13,14 +13,9 @@ import {
   type ConversationModePreference,
 } from "@/domain/conversationPreferences";
 import {
-  composePromptContext,
-  type PromptConversationMessage,
-} from "@/domain/promptComposer";
-import { extractCognitiveCandidates } from "@/domain/cognitiveExtraction";
-import { validateCognitiveExtraction } from "@/domain/cognitiveValidation";
-import { prepareMemoryCandidates } from "@/domain/memoryCandidates";
-import { prepareMemoryReviewGate } from "@/domain/memoryReviewGate";
-import { lookupExistingThoughts } from "@/domain/thoughtLookup";
+  runConversationPipeline,
+  type ConversationPipelineMessage,
+} from "@/domain/conversationPipeline";
 import { useThoughts } from "@/domain/ThoughtsProvider";
 
 export const Route = createFileRoute("/_app/chat")({
@@ -201,24 +196,20 @@ function ChatPage() {
   const send = () => {
     if (!input.trim()) return;
     const text = input;
-    const recentConversation: PromptConversationMessage[] = [
+    const recentConversation: ConversationPipelineMessage[] = [
       ...messages.slice(-6).map((message) => ({
         role: message.from === "me" ? "user" : "assistant",
         text: message.text,
       })),
       { role: "user", text },
     ];
-    const promptContext = composePromptContext({
+    const { promptContext, ...unusedPipelineResult } = runConversationPipeline({
       currentUserMessage: text,
-      recentConversation,
+      recentMessages: recentConversation,
       conversationMode: modeId,
+      thoughts,
     });
-    const cognitiveExtraction = extractCognitiveCandidates(promptContext);
-    const cognitiveValidation = validateCognitiveExtraction(cognitiveExtraction);
-    const memoryCandidates = prepareMemoryCandidates(cognitiveValidation);
-    const memoryReviewGate = prepareMemoryReviewGate(memoryCandidates);
-    const thoughtLookup = lookupExistingThoughts({ reviewGate: memoryReviewGate, thoughts });
-    void thoughtLookup;
+    void unusedPipelineResult;
 
     addThought({ text, source: "chat", tags: ["Conversazione"] });
     setMessages((m) => [...m, { id: Date.now(), from: "me", text }]);

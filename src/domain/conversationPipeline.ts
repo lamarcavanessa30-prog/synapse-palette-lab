@@ -1,0 +1,48 @@
+import type { ConversationModePreference } from "./conversationPreferences";
+import { extractCognitiveCandidates, type CognitiveExtractionResult } from "./cognitiveExtraction";
+import { validateCognitiveExtraction, type CognitiveValidationResult } from "./cognitiveValidation";
+import { prepareMemoryCandidates, type MemoryCandidateResult } from "./memoryCandidates";
+import { prepareMemoryReviewGate, type MemoryReviewGateResult } from "./memoryReviewGate";
+import { composePromptContext, type PromptContext, type PromptConversationMessage } from "./promptComposer";
+import { lookupExistingThoughts, type ThoughtLookupResult } from "./thoughtLookup";
+import type { Thought } from "./thoughts";
+
+export type ConversationPipelineMessage = PromptConversationMessage;
+
+export type ConversationPipelineInput = {
+  currentUserMessage: string;
+  recentMessages: ConversationPipelineMessage[];
+  conversationMode: ConversationModePreference;
+  thoughts: Thought[];
+};
+
+export type ConversationPipelineResult = {
+  promptContext: PromptContext;
+  extraction: CognitiveExtractionResult;
+  validation: CognitiveValidationResult;
+  memoryCandidates: MemoryCandidateResult;
+  reviewGate: MemoryReviewGateResult;
+  thoughtLookup: ThoughtLookupResult;
+};
+
+export function runConversationPipeline(input: ConversationPipelineInput): ConversationPipelineResult {
+  const promptContext = composePromptContext({
+    currentUserMessage: input.currentUserMessage,
+    recentConversation: input.recentMessages,
+    conversationMode: input.conversationMode,
+  });
+  const extraction = extractCognitiveCandidates(promptContext);
+  const validation = validateCognitiveExtraction(extraction);
+  const memoryCandidates = prepareMemoryCandidates(validation);
+  const reviewGate = prepareMemoryReviewGate(memoryCandidates);
+  const thoughtLookup = lookupExistingThoughts({ reviewGate, thoughts: input.thoughts });
+
+  return {
+    promptContext,
+    extraction,
+    validation,
+    memoryCandidates,
+    reviewGate,
+    thoughtLookup,
+  };
+}
