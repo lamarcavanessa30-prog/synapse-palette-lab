@@ -43,6 +43,8 @@ import {
   CartesianGrid,
 } from "recharts";
 import { ReasoningTrace, type ReasoningTraceData } from "@/components/ReasoningTrace";
+import { createInsightPreview, type InsightPreviewResult } from "@/domain/insightPreview";
+import { useThoughts } from "@/domain/ThoughtsProvider";
 
 // ——— Reasoning traces (demo) ———
 const TRACE_EMOTIONAL: ReasoningTraceData = {
@@ -253,9 +255,51 @@ function ChartTooltip({ active, payload, label }: any) {
   );
 }
 
+function formatInsightPreviewDate(date: string | null) {
+  if (!date) return "nessun pensiero ancora";
+
+  return new Intl.DateTimeFormat("it-IT", {
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(date));
+}
+
+function InsightPreviewCard({ preview }: { preview: InsightPreviewResult }) {
+  return (
+    <Card className="mb-8 p-5 md:p-6">
+      <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+        <div>
+          <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
+            anteprima dai tuoi pensieri
+          </div>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground/80">
+            {preview.message}
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-3 text-sm md:min-w-80">
+          <div className="rounded-xl border border-border/60 bg-secondary/40 p-3">
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">pensieri</div>
+            <div className="mt-1 font-display text-2xl text-primary">{preview.totalThoughts}</div>
+          </div>
+          <div className="rounded-xl border border-border/60 bg-secondary/40 p-3">
+            <div className="text-[10px] uppercase tracking-widest text-muted-foreground">ultimo</div>
+            <div className="mt-1 text-xs leading-snug text-foreground/80">
+              {formatInsightPreviewDate(preview.latestThoughtDate)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 // ——— Page ———
 function InsightPage() {
   const [tab, setTab] = useState<TabId>("overview");
+  const { thoughts } = useThoughts();
+  const insightPreview = createInsightPreview(thoughts);
 
   return (
     <div className="p-6 md:p-12 max-w-7xl mx-auto pb-32">
@@ -269,6 +313,8 @@ function InsightPage() {
           Demo di sintesi narrativa. In futuro userà conversazioni e pensieri reali; per ora i grafici sono contenuti illustrativi.
         </p>
       </header>
+
+      <InsightPreviewCard preview={insightPreview} />
 
       {/* Tabs */}
       <div className="mb-8 -mx-2 px-2 overflow-x-auto">
