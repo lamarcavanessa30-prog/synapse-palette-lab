@@ -4,6 +4,10 @@ import { validateCognitiveExtraction, type CognitiveValidationResult } from "./c
 import { prepareMemoryCandidates, type MemoryCandidateResult } from "./memoryCandidates";
 import { evaluateMemoryEligibility, type MemoryEligibilityResult } from "./memoryEligibility";
 import { prepareMemoryIntakeDrafts, type MemoryIntakeDraftResult } from "./memoryIntakeDraft";
+import {
+  prepareMemoryRepositoryInputs,
+  type MemoryRepositoryInputResult,
+} from "./memoryRepositoryInput";
 import { createMemoryRecords, type MemoryRecordFactoryResult } from "./memoryRecordFactory";
 import { prepareMemoryReviewGate, type MemoryReviewGateResult } from "./memoryReviewGate";
 import { decideMemoryStorage, type MemoryStorageDecisionResult } from "./memoryStorageDecision";
@@ -36,6 +40,7 @@ export type ConversationPipelineResult = {
   memoryRecordFactory: MemoryRecordFactoryResult;
   memoryStorageDecision: MemoryStorageDecisionResult;
   memoryStorageRequest: MemoryStorageRequestResult;
+  memoryRepositoryInput: MemoryRepositoryInputResult;
 };
 
 export function runConversationPipeline(input: ConversationPipelineInput): ConversationPipelineResult {
@@ -54,6 +59,7 @@ export function runConversationPipeline(input: ConversationPipelineInput): Conve
   const memoryRecordFactory = createMemoryRecords(memoryEligibility);
   const memoryStorageDecision = decideMemoryStorage(memoryRecordFactory);
   const memoryStorageRequest = prepareMemoryStorageRequests(memoryStorageDecision);
+  const memoryRepositoryInput = prepareMemoryRepositoryInputs(memoryStorageRequest);
 
   return {
     promptContext,
@@ -67,5 +73,6 @@ export function runConversationPipeline(input: ConversationPipelineInput): Conve
     memoryRecordFactory,
     memoryStorageDecision,
     memoryStorageRequest,
+    memoryRepositoryInput,
   };
 }

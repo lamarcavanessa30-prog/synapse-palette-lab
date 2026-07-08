@@ -6,6 +6,7 @@ import { validateCognitiveExtraction } from "./cognitiveValidation";
 import { prepareMemoryCandidates } from "./memoryCandidates";
 import { evaluateMemoryEligibility } from "./memoryEligibility";
 import { prepareMemoryIntakeDrafts } from "./memoryIntakeDraft";
+import { prepareMemoryRepositoryInputs } from "./memoryRepositoryInput";
 import { createMemoryRecords } from "./memoryRecordFactory";
 import { prepareMemoryReviewGate } from "./memoryReviewGate";
 import { decideMemoryStorage } from "./memoryStorageDecision";
@@ -64,6 +65,9 @@ export const memoryStorageDecisionFixture = decideMemoryStorage(memoryRecordFact
 export const memoryStorageRequestFixture =
   prepareMemoryStorageRequests(memoryStorageDecisionFixture);
 
+export const memoryRepositoryInputFixture =
+  prepareMemoryRepositoryInputs(memoryStorageRequestFixture);
+
 export const conversationPipelineFixture = runConversationPipeline({
   currentUserMessage: promptComposerFixture.currentUserMessage,
   recentMessages: promptComposerFixture.recentConversation,
@@ -84,6 +88,7 @@ export const cognitivePipelineBoundaryFixture = {
   memoryRecordFactory: memoryRecordFactoryFixture,
   memoryStorageDecision: memoryStorageDecisionFixture,
   memoryStorageRequest: memoryStorageRequestFixture,
+  memoryRepositoryInput: memoryRepositoryInputFixture,
 };
 
 export const cognitivePipelineExpectedFixture = {
@@ -98,4 +103,5 @@ export const cognitivePipelineExpectedFixture = {
   memoryRecordCount: 0,
   memoryStorageDecisionCount: 0,
   memoryStorageRequestCount: 0,
+  memoryRepositoryInputCount: 0,
 };
