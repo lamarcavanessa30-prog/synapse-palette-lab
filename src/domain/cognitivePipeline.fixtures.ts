@@ -8,6 +8,7 @@ import { evaluateMemoryEligibility } from "./memoryEligibility";
 import { prepareMemoryIntakeDrafts } from "./memoryIntakeDraft";
 import { createMemoryRecords } from "./memoryRecordFactory";
 import { prepareMemoryReviewGate } from "./memoryReviewGate";
+import { decideMemoryStorage } from "./memoryStorageDecision";
 import { lookupExistingThoughts } from "./thoughtLookup";
 import type { Thought } from "./thoughts";
 
@@ -57,6 +58,8 @@ export const memoryEligibilityFixture = evaluateMemoryEligibility(memoryIntakeDr
 
 export const memoryRecordFactoryFixture = createMemoryRecords(memoryEligibilityFixture);
 
+export const memoryStorageDecisionFixture = decideMemoryStorage(memoryRecordFactoryFixture);
+
 export const conversationPipelineFixture = runConversationPipeline({
   currentUserMessage: promptComposerFixture.currentUserMessage,
   recentMessages: promptComposerFixture.recentConversation,
@@ -75,6 +78,7 @@ export const cognitivePipelineBoundaryFixture = {
   memoryIntakeDraft: memoryIntakeDraftFixture,
   memoryEligibility: memoryEligibilityFixture,
   memoryRecordFactory: memoryRecordFactoryFixture,
+  memoryStorageDecision: memoryStorageDecisionFixture,
 };
 
 export const cognitivePipelineExpectedFixture = {
@@ -87,4 +91,5 @@ export const cognitivePipelineExpectedFixture = {
   memoryIntakeDraftCount: 0,
   memoryEligibleCount: 0,
   memoryRecordCount: 0,
+  memoryStorageDecisionCount: 0,
 };
