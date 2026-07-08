@@ -4,6 +4,7 @@ import { composePromptContext } from "./promptComposer";
 import { extractCognitiveCandidates } from "./cognitiveExtraction";
 import { validateCognitiveExtraction } from "./cognitiveValidation";
 import { prepareMemoryCandidates } from "./memoryCandidates";
+import { evaluateMemoryEligibility } from "./memoryEligibility";
 import { prepareMemoryIntakeDrafts } from "./memoryIntakeDraft";
 import { prepareMemoryReviewGate } from "./memoryReviewGate";
 import { lookupExistingThoughts } from "./thoughtLookup";
@@ -51,6 +52,8 @@ export const thoughtLookupFixture = lookupExistingThoughts({
 
 export const memoryIntakeDraftFixture = prepareMemoryIntakeDrafts(thoughtLookupFixture);
 
+export const memoryEligibilityFixture = evaluateMemoryEligibility(memoryIntakeDraftFixture);
+
 export const conversationPipelineFixture = runConversationPipeline({
   currentUserMessage: promptComposerFixture.currentUserMessage,
   recentMessages: promptComposerFixture.recentConversation,
@@ -67,6 +70,7 @@ export const cognitivePipelineBoundaryFixture = {
   memoryReviewGate: memoryReviewGateFixture,
   thoughtLookup: thoughtLookupFixture,
   memoryIntakeDraft: memoryIntakeDraftFixture,
+  memoryEligibility: memoryEligibilityFixture,
 };
 
 export const cognitivePipelineExpectedFixture = {
@@ -77,4 +81,5 @@ export const cognitivePipelineExpectedFixture = {
   matchedCandidateCount: 1,
   unmatchedCandidateCount: 0,
   memoryIntakeDraftCount: 0,
+  memoryEligibleCount: 0,
 };

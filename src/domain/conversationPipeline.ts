@@ -2,6 +2,7 @@ import type { ConversationModePreference } from "./conversationPreferences";
 import { extractCognitiveCandidates, type CognitiveExtractionResult } from "./cognitiveExtraction";
 import { validateCognitiveExtraction, type CognitiveValidationResult } from "./cognitiveValidation";
 import { prepareMemoryCandidates, type MemoryCandidateResult } from "./memoryCandidates";
+import { evaluateMemoryEligibility, type MemoryEligibilityResult } from "./memoryEligibility";
 import { prepareMemoryIntakeDrafts, type MemoryIntakeDraftResult } from "./memoryIntakeDraft";
 import { prepareMemoryReviewGate, type MemoryReviewGateResult } from "./memoryReviewGate";
 import { composePromptContext, type PromptContext, type PromptConversationMessage } from "./promptComposer";
@@ -25,6 +26,7 @@ export type ConversationPipelineResult = {
   reviewGate: MemoryReviewGateResult;
   thoughtLookup: ThoughtLookupResult;
   memoryIntakeDraft: MemoryIntakeDraftResult;
+  memoryEligibility: MemoryEligibilityResult;
 };
 
 export function runConversationPipeline(input: ConversationPipelineInput): ConversationPipelineResult {
@@ -39,6 +41,7 @@ export function runConversationPipeline(input: ConversationPipelineInput): Conve
   const reviewGate = prepareMemoryReviewGate(memoryCandidates);
   const thoughtLookup = lookupExistingThoughts({ reviewGate, thoughts: input.thoughts });
   const memoryIntakeDraft = prepareMemoryIntakeDrafts(thoughtLookup);
+  const memoryEligibility = evaluateMemoryEligibility(memoryIntakeDraft);
 
   return {
     promptContext,
@@ -48,5 +51,6 @@ export function runConversationPipeline(input: ConversationPipelineInput): Conve
     reviewGate,
     thoughtLookup,
     memoryIntakeDraft,
+    memoryEligibility,
   };
 }
