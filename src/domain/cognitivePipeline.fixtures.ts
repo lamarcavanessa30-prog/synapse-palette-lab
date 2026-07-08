@@ -20,8 +20,8 @@ const FIXTURE_CONVERSATION_MODE: ConversationModePreference = "automatica";
 
 const FIXTURE_THOUGHTS: Thought[] = [
   {
-    id: "thought_existing_uncertainty",
-    text: "non so",
+    id: "thought_existing_context",
+    text: "Sto osservando un altro filo.",
     createdAt: "2026-07-07T10:00:00.000Z",
     source: "chat",
     tags: ["Conversazione"],
@@ -80,6 +80,28 @@ export const memoryPipelineValidationFixture = validateMemoryPipeline({
   memoryPersistencePlan: memoryPersistencePlanFixture,
 });
 
+const memoryRecordFixture = memoryRecordFactoryFixture.records[0];
+const memoryStorageRequestRecordFixture = memoryStorageRequestFixture.requests[0];
+const memoryRepositoryInputRecordFixture = memoryRepositoryInputFixture.inputs[0];
+const memoryPersistencePlanRecordFixture = memoryPersistencePlanFixture.items[0];
+
+export const memoryPipelineEndToEndValidationFixture = {
+  recordReferencePreserved:
+    !!memoryRecordFixture &&
+    memoryStorageRequestRecordFixture?.payload.record === memoryRecordFixture &&
+    memoryRepositoryInputRecordFixture?.input.record === memoryRecordFixture &&
+    memoryPersistencePlanRecordFixture?.record === memoryRecordFixture,
+  decisionReasonPreserved:
+    !!memoryStorageRequestRecordFixture &&
+    memoryRepositoryInputRecordFixture?.input.decisionReason ===
+      memoryStorageRequestRecordFixture.decisionReason &&
+    memoryPersistencePlanRecordFixture?.decisionReason ===
+      memoryRepositoryInputRecordFixture?.input.decisionReason,
+  repositoryInputPreserved:
+    !!memoryRepositoryInputRecordFixture &&
+    memoryPersistencePlanRecordFixture?.repositoryInput === memoryRepositoryInputRecordFixture,
+};
+
 export const conversationPipelineFixture = runConversationPipeline({
   currentUserMessage: promptComposerFixture.currentUserMessage,
   recentMessages: promptComposerFixture.recentConversation,
@@ -103,6 +125,7 @@ export const cognitivePipelineBoundaryFixture = {
   memoryRepositoryInput: memoryRepositoryInputFixture,
   memoryPersistencePlan: memoryPersistencePlanFixture,
   memoryPipelineValidation: memoryPipelineValidationFixture,
+  memoryPipelineEndToEndValidation: memoryPipelineEndToEndValidationFixture,
 };
 
 export const cognitivePipelineExpectedFixture = {
@@ -110,15 +133,18 @@ export const cognitivePipelineExpectedFixture = {
   uncertaintyMarkerCount: 1,
   memoryCandidateCount: 1,
   readyForReviewCount: 1,
-  matchedCandidateCount: 1,
-  unmatchedCandidateCount: 0,
-  memoryIntakeDraftCount: 0,
-  memoryEligibleCount: 0,
-  memoryRecordCount: 0,
-  memoryStorageDecisionCount: 0,
-  memoryStorageRequestCount: 0,
-  memoryRepositoryInputCount: 0,
-  memoryPersistencePlanCount: 0,
+  matchedCandidateCount: 0,
+  unmatchedCandidateCount: 1,
+  memoryIntakeDraftCount: 1,
+  memoryEligibleCount: 1,
+  memoryRecordCount: 1,
+  memoryStorageDecisionCount: 1,
+  memoryStorageRequestCount: 1,
+  memoryRepositoryInputCount: 1,
+  memoryPersistencePlanCount: 1,
   memoryPipelineValidationStatus: "valid",
   memoryPipelineValidationIssueCount: 0,
+  memoryPipelineRecordReferencePreserved: true,
+  memoryPipelineDecisionReasonPreserved: true,
+  memoryPipelineRepositoryInputPreserved: true,
 };
